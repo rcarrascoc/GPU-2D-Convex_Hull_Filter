@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/rcarrasco/project/GPU-2D-Convex_Hull_Filter'
+nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu
+make: Leaving directory '/home/rcarrasco/project/GPU-2D-Convex_Hull_Filter'
+ 
