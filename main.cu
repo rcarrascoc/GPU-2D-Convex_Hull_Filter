@@ -3,7 +3,7 @@
 
 // define global variables
 #define REAL float
-#define INDEX int
+#define INDEX uint
 #define REPEATS 1
 
 // include filter.cuh
@@ -90,8 +90,8 @@ int main(int argc, char *argv[]) {
 
     if (algorithm == 0){
         filter_gpu_scan *thisHull;
-        test3(thisHull, x, y, size, filter_gpu_scan);
-        delete thisHull;
+        //test3(thisHull, x, y, size, filter_gpu_scan);
+        //delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);

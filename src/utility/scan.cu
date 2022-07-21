@@ -208,17 +208,17 @@ static __global__ void compute_wmma_segmented_prefixsum_256n_block_ps(V *d_in, V
 	__shared__ half la_mat_s[SEGMENT_SIZE];
 	//INDEX acc = 0; // only use the first 16
 	
-	const INDEX localWarpIdx = threadIdx.x / WARPSIZE;
-	const INDEX local_offset = localWarpIdx * WMMA_TILE_SIZE;
-	const INDEX laneid = threadIdx.x % WARPSIZE;
+	INDEX localWarpIdx = threadIdx.x / WARPSIZE;
+	INDEX local_offset = localWarpIdx * WMMA_TILE_SIZE;
+	INDEX laneid = threadIdx.x % WARPSIZE;
 	//const INDEX globalSegmentIdx = (threadIdx.x + blockDim.x * blockIdx.x)/SEGMENT_SIZE;
-	const INDEX globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
-	const INDEX offset = local_offset + blockIdx.x*SEGMENT_SIZE; //global_offset + (+ localWarpIdx) * WMMA_TILE_SIZE;
+	INDEX globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
+	INDEX offset = local_offset + blockIdx.x*SEGMENT_SIZE; //global_offset + (+ localWarpIdx) * WMMA_TILE_SIZE;
 	
 	#pragma unroll
 	for (INDEX idx = threadIdx.x; idx < WMMA_TILE_SIZE; idx += BLOCK_DIM) {
-		const auto ii = idx / N;
-		const auto jj = idx % N;
+		INDEX ii = idx / N;
+		INDEX jj = idx % N;
 		u_frag_s[idx] = ii <= jj ? one<half>() : zero<half>();
 		l_frag_s[idx] = ii <= jj ? zero<half>() : one<half>();
 	}
@@ -301,9 +301,9 @@ static __global__ void compute_wmma_segmented_prefixsum_256n_block_ps(V *d_in, V
 
 template <typename T>
 __global__ void add_partial_sums(T *output, half *partial_sums, T *segmented_partial_sums, INDEX num_elements) {
-	const INDEX offset = threadIdx.x + blockIdx.x * blockDim.x;
+	INDEX offset = threadIdx.x + blockIdx.x * blockDim.x;
 	//const INDEX globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
-	const INDEX globalSegmentIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WMMA_TILE_SIZE;
+	INDEX globalSegmentIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WMMA_TILE_SIZE;
 	if (offset < num_elements) {
 		output[offset+1] += (T) partial_sums[offset] + segmented_partial_sums[globalSegmentIdx];
 	}

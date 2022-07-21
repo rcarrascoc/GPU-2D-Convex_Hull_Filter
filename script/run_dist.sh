@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#run as sh ./script/run_dist.sh $((2**25)) $((2**25)) $((2**29)) 5 data/normal_dist.dat prog 0 0
+#run as sh script/run_dist.sh $((2**25)) $((2**25)) $((2**29)) 5 data/normal_dist.dat prog 0 0
     
 STARTN=$1; DN=$2; ENDN=$3 SAMPLES=$4; OUTFILE=${5}; BINARY=${6};  SHAPE=$7; PROB=${8};
 TMEAN=0

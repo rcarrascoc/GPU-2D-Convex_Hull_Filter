@@ -5,7 +5,7 @@ __global__ void kernel_inPointsInQ(   float *d_x, float *d_y, INDEX n,
                                         float *m1, float *m2, float *m3, float *m4, float *m1b, float *m2b, float *m3b, float *m4b, float *mh,
                                         T *Q, INDEX *qa   ){
                                 
-    INDEX i = blockIdx.x * blockDim.x + threadIdx.x; 
+    uint i = blockIdx.x * blockDim.x + threadIdx.x; 
     float m, x, y;
     if(i < n){
         Q[i] = 0;

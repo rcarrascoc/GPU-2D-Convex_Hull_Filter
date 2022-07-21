@@ -140,9 +140,9 @@ void compaction_tc_scan(T *d_out, INDEX *d_num, V *d_bit_vector, T *d_in, INDEX 
     dim3 blockDim(BLOCK_DIM,1,1);
     dim3 gridDim((n + 8192 - 1)/8192,1,1);
 	T *segmented_partial_sums;
-	V *partial_sums;
-	cudaMalloc(&segmented_partial_sums,sizeof(T)*num_segments);
-	cudaMalloc(&partial_sums,sizeof(V)*n);
+	V *partial_sums; kernelCallCheck();
+	cudaMalloc(&partial_sums,sizeof(V)*n); kernelCallCheck();
+	cudaMalloc(&segmented_partial_sums,sizeof(T)*num_segments); kernelCallCheck();
     compute_wmma_segmented_prefixsum_256n_block_ps<T,V><<<gridDim, blockDim>>>(d_bit_vector, partial_sums, segmented_partial_sums, n); kernelCallCheck();
     cudaDeviceSynchronize();
 	scan_parallel_cub<T>(segmented_partial_sums,segmented_partial_sums,num_segments); kernelCallCheck();
