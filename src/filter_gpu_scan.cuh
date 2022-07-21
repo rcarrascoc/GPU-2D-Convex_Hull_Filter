@@ -84,10 +84,10 @@ public:
         
         computeSlopes();
     
-        cudaMalloc(&d_vec_inQ, sizeof(half) * n);
-        cudaMalloc(&d_qa, sizeof(INDEX) * n);
-        cudaMalloc(&d_q, sizeof(INDEX) * n);
-        cudaMalloc(&d_size, sizeof(INDEX));
+        cudaMalloc(&d_vec_inQ, sizeof(half) * n); kernelCallCheck();
+        cudaMalloc(&d_qa, sizeof(INDEX) * n); kernelCallCheck();
+        cudaMalloc(&d_q, sizeof(INDEX) * n); kernelCallCheck();
+        cudaMalloc(&d_size, sizeof(INDEX)); kernelCallCheck();
 
         // is in polygon?
         kernel_inPointsInQ<half><<<(n+BSIZE-1)/BSIZE,BSIZE>>>(d_x, d_y, n, 

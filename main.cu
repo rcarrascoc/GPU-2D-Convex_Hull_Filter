@@ -108,8 +108,8 @@ int main(int argc, char *argv[]) {
     }
     else if (algorithm == 1){
         filter_cub_flagged *thisHull;
-        test3(thisHull, x, y, size, filter_cub_flagged);
-        delete thisHull;
+        //test3(thisHull, x, y, size, filter_cub_flagged);
+        //delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);
@@ -126,8 +126,8 @@ int main(int argc, char *argv[]) {
     }
     else if (algorithm == 2){
         filter_thrust_scan *thisHull;
-        test3(thisHull, x, y, size, filter_thrust_scan);
-        delete thisHull;
+        //test3(thisHull, x, y, size, filter_thrust_scan);
+        //delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);
@@ -146,12 +146,12 @@ int main(int argc, char *argv[]) {
         filter_thrust_copy *thisHull;
         // copy from x and y to array of p type point
         Point *points = new Point[size];
-        for (int i = 0; i < size; i++){
+        for (INDEX i = 0; i < size; i++){
             points[i].x = x[i];
             points[i].y = y[i];
         }
-        test4(thisHull, points, size, filter_thrust_copy);
-        delete thisHull;
+        //test4(thisHull, points, size, filter_thrust_copy);
+        //delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);

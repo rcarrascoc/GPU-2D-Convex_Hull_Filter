@@ -3,8 +3,8 @@
 // generate x and y random arrays of size n
 // where the x and y arrays are T types
 template <typename T>
-void generate_random_points(T* x, T* y, int n) {
-    for (int i = 0; i < n; i++) {
+void generate_random_points(T* x, T* y, INDEX n) {
+    for (INDEX i = 0; i < n; i++) {
         x[i] = rand() % n;
         y[i] = rand() % n;
     }
@@ -14,13 +14,13 @@ void generate_random_points(T* x, T* y, int n) {
 // where the x and y arrays are T types
 // and normal distribution is used
 template <typename T>
-void generate_random_points_normal(T* x, T* y, int n) {
+void generate_random_points_normal(T* x, T* y, INDEX n) {
     srand(1);
     std::mt19937 generator;
 	double mean = 0.5;
 	double stddev  = 0.1;
 	std::normal_distribution<float> dist(mean, stddev);
-	for(ulong i=0; i<n; i++){
+	for(INDEX i=0; i<n; i++){
 		x[i] = dist(generator);
 		y[i] = dist(generator);
 	}
@@ -30,13 +30,13 @@ void generate_random_points_normal(T* x, T* y, int n) {
 // where the x and y arrays are T types
 // and uniform distribution is used
 template <typename T>
-void generate_random_points_uniform(T* x, T* y, int n) {
+void generate_random_points_uniform(T* x, T* y, INDEX n) {
     srand(1);
     std::mt19937 generator;
     double mean = 0.5;
     double stddev  = 0.1;
     std::uniform_real_distribution<float> dist(mean, stddev);
-    for(ulong i=0; i<n; i++){
+    for(INDEX i=0; i<n; i++){
         x[i] = dist(generator);
         y[i] = dist(generator);
     }
@@ -46,10 +46,10 @@ void generate_random_points_uniform(T* x, T* y, int n) {
 // where the x and y arrays are T types
 // and circular distribution is used
 template <typename T>
-void generate_random_points_circumference(T *X, T *Y, uint n, double prob){
+void generate_random_points_circumference(T *X, T *Y, INDEX n, double prob){
     srand(1);
-	int i;
-	int N = n - n*prob;		// points on the circumference.	CASO 1
+	INDEX i;
+	INDEX N = n - n*prob;		// points on the circumference.	CASO 1
 	float cx, cy, ra;
 	float x, y, alpha, tg, fact;
 	
@@ -125,7 +125,7 @@ void generate_random_points_circumference(T *X, T *Y, uint n, double prob){
 
 // print the x and y arrays of size n
 template <typename T>
-void print_points(T* x, T* y, int n) {
+void print_points(T* x, T* y, INDEX n) {
 	for (int i = 0; i < n; i++) {
 		std::cout << x[i] << " " << y[i] << std::endl;
 	}
