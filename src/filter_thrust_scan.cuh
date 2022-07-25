@@ -138,4 +138,26 @@ public:
 
         printf("compacted size: %d\n", size);
     }
+
+
+    void delete_filter(){
+        // delete host variables
+        //delete[] x;
+        //delete[] y;
+        delete h_q;
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
+
+        // delete device variables
+        cudaFree(d_x);
+        cudaFree(d_y);
+        cudaFree(d_vec_inQ);
+        cudaFree(d_q);
+        cudaFree(d_qa);
+        cudaFree(d_size);
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
+    }
 };

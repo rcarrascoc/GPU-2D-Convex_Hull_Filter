@@ -124,19 +124,8 @@ public:
             mh = 0;
     }
 
-
-    void clearGPU(){
-        /*cudaFree(d_x);
-        cudaFree(d_y);
-        cudaFree(d_out_x);
-        cudaFree(d_out_y);
-        cudaFree(d_q);
-        cudaFree(d_qa);
-        cudaFree(d_size); // */
-	    cudaDeviceReset(); // uncomment to reset GPU after each run
-        cudaDeviceSynchronize();
-        kernelCallCheck();
-        // print clear gpu memory done!
-        std::cout << "clear gpu memory done!" << std::endl;
-    }
+    /*// declare destructor
+    ~filter(){
+        printf("aca estoy");
+    } //*/
 };

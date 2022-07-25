@@ -18,6 +18,7 @@ public:
 
     INDEX *d_ri, *d_le, *d_lo, *d_up;
     INDEX *d_c1, *d_c2, *d_c3, *d_c4;
+    float *d_c;
 
     // slope device variables
     float *d_m1, *d_m2, *d_m3, *d_m4, *d_m1b, *d_m2b, *d_m3b, *d_m4b, *d_mh;
@@ -62,7 +63,6 @@ public:
         cudaMalloc(&d_c3, sizeof(INDEX));
         cudaMalloc(&d_c4, sizeof(INDEX));
 
-        float *d_c;
         cudaMalloc(&d_c, sizeof(float) * n);
 
         // find corner points
@@ -131,7 +131,6 @@ public:
         cudaMalloc(&d_c3, sizeof(INDEX));
         cudaMalloc(&d_c4, sizeof(INDEX));
 
-        float *d_c;
         cudaMalloc(&d_c, sizeof(float) * n);
 
         // find corner points
@@ -195,6 +194,46 @@ public:
        cudaMemcpy(out_y, d_out_y, sizeof(float) * n, cudaMemcpyDeviceToHost);//
 
    }
+
+
+    void delete_filter(){
+        // delete host variables
+        //delete[] x;
+        //delete[] y;
+        delete h_q;
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
+
+        // delete device variables
+        cudaFree(d_x);
+        cudaFree(d_y);
+        cudaFree(d_ri);
+        cudaFree(d_le);
+        cudaFree(d_lo);
+        cudaFree(d_up);
+        cudaFree(d_c1);
+        cudaFree(d_c2);
+        cudaFree(d_c3);
+        cudaFree(d_c4);
+        cudaFree(d_c);
+       /* cudaFree(d_m1);
+        cudaFree(d_m2);
+        cudaFree(d_m3);
+        cudaFree(d_m4);
+        cudaFree(d_m1b);
+        cudaFree(d_m2b);
+        cudaFree(d_m3b);
+        cudaFree(d_m4b);
+        cudaFree(d_mh); // */
+        cudaFree(d_vec_inQ);
+        cudaFree(d_q);
+        cudaFree(d_qa);
+        cudaFree(d_size);
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
+    }
 
     // print indices and cooordinates of all axis extreme points, corners, and slopes
     void print_extremes(){

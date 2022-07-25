@@ -2,9 +2,9 @@
 #include <string>
 
 // define global variables
-#define REAL float
-#define INDEX uint
-#define REPEATS 1
+#define REAL float // define the real type
+#define INDEX uint // index type
+#define REPEATS 20 // number of repetitions of the benchmark
 
 // include filter.cuh
 #include "src/filter.cuh"
@@ -19,7 +19,7 @@ using namespace std;
 #define test3(ffthis, ffx, ffy, ffn, ffalg) ffthis = new ffalg(ffx,ffy,ffn)
 #define test4(ffthis, ffp, ffn, ffalg) ffthis = new ffalg(ffp,ffn)
 
-string arr_alg[4] = {"gpu kernel", "cub scan", "thrust scan", "thrust copy_if"};
+string arr_alg[6] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if"};
 string arr_shape[3] = {"normal distribution", "uniform distribution", "circumference distribution"};
 
 // main function
@@ -58,6 +58,7 @@ int main(int argc, char *argv[]) {
     // initialize x and y arrays of type REAL
     REAL *x = new REAL[size];
     REAL *y = new REAL[size];
+    INDEX filtered_size;
 
     // call the corresponding function
     // for generating x and y arrays
@@ -88,10 +89,45 @@ int main(int argc, char *argv[]) {
 
     //test2(thisHull, x, y, size, filter_gpu_scan);
 
-    if (algorithm == 0){
+    if (algorithm == 0) {
+        filter_cpu_serial *thisHull;
+        for (int i = 0; i < REPEATS; i++){
+            cudaEventRecord(start);
+            test3(thisHull, x, y, size, filter_cpu_serial);
+            thisHull->cpu_manhattan();
+            cudaEventRecord(stop);
+            cudaEventSynchronize(stop);
+            cudaEventElapsedTime(&cuda_time, start, stop);
+            cuda_time_acc += cuda_time;
+            //std::cout << "size after the filter: " << thisHull->size << std::endl;
+            //thisHull->print_extremes();
+            filtered_size = thisHull->size;
+            //thisHull->delete_filter();
+            delete thisHull;
+        }
+    }
+    if (algorithm == 1) {
+        filter_cpu_serial *thisHull;
+        for (int i = 0; i < REPEATS; i++){
+            cudaEventRecord(start);
+            test3(thisHull, x, y, size, filter_cpu_serial);
+            thisHull->cpu_euclidean();
+            cudaEventRecord(stop);
+            cudaEventSynchronize(stop);
+            cudaEventElapsedTime(&cuda_time, start, stop);
+            cuda_time_acc += cuda_time;
+            //std::cout << "size after the filter: " << thisHull->size << std::endl;
+            //thisHull->print_extremes();
+            filtered_size = thisHull->size;
+            //thisHull->delete_filter();
+            delete thisHull;
+        }
+    }
+    else if (algorithm == 2){
         filter_gpu_scan *thisHull;
-        //test3(thisHull, x, y, size, filter_gpu_scan);
-        //delete thisHull;
+        test3(thisHull, x, y, size, filter_gpu_scan);
+        thisHull->delete_filter();
+        delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);
@@ -102,14 +138,16 @@ int main(int argc, char *argv[]) {
             cuda_time_acc += cuda_time;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            //thisHull->clearGPU();
+            filtered_size = thisHull->size;
+            thisHull->delete_filter();
             delete thisHull;
         }
     }
-    else if (algorithm == 1){
+    else if (algorithm == 3){
         filter_cub_flagged *thisHull;
-        //test3(thisHull, x, y, size, filter_cub_flagged);
-        //delete thisHull;
+        test3(thisHull, x, y, size, filter_cub_flagged);
+        thisHull->delete_filter();
+        delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);
@@ -120,14 +158,16 @@ int main(int argc, char *argv[]) {
             cuda_time_acc += cuda_time;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            //thisHull->clearGPU();
+            thisHull->delete_filter();
+            filtered_size = thisHull->size;
             delete thisHull;
         }
     }
-    else if (algorithm == 2){
+    else if (algorithm == 4){
         filter_thrust_scan *thisHull;
-        //test3(thisHull, x, y, size, filter_thrust_scan);
-        //delete thisHull;
+        test3(thisHull, x, y, size, filter_thrust_scan);
+        thisHull->delete_filter();
+        delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);
@@ -138,11 +178,12 @@ int main(int argc, char *argv[]) {
             cuda_time_acc += cuda_time;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            //thisHull->clearGPU();
+            thisHull->delete_filter();
+            filtered_size = thisHull->size;
             delete thisHull;
         }
     }
-    else if (algorithm == 3){
+    else if (algorithm == 5){
         filter_thrust_copy *thisHull;
         // copy from x and y to array of p type point
         Point *points = new Point[size];
@@ -150,8 +191,9 @@ int main(int argc, char *argv[]) {
             points[i].x = x[i];
             points[i].y = y[i];
         }
-        //test4(thisHull, points, size, filter_thrust_copy);
-        //delete thisHull;
+        test4(thisHull, points, size, filter_thrust_copy);
+        thisHull->delete_filter();
+        delete thisHull;
         cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
             cudaEventRecord(start);
@@ -162,18 +204,18 @@ int main(int argc, char *argv[]) {
             cuda_time_acc += cuda_time;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            //thisHull->clearGPU();
+            filtered_size = thisHull->size;
+            thisHull->delete_filter();
             delete thisHull;
         }
         delete [] points;
     }
 
-
-    /*filter *f;
-    f = new filter(x, y, size);
-    f->gpu_scan();*/
-
     //printf("Time: %f\n", cuda_time_acc/REPEATS);
-    printf("%f %i %i\n",cuda_time_acc/REPEATS, size, 0);
+    printf("%f %i %i\n",cuda_time_acc/REPEATS, filtered_size, 0);
+
+    // free memory
+    delete x;
+    delete y;
 
 }

@@ -1,167 +1,144 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-# GNU Make 4.3
+# GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
-# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul 21 16:49:41 2022
- 
+# Make data base, printed on Sun Jul 24 23:00:46 2022
 
 # Variables
 
-# environment
-LC_ALL = C
-# environment
-VSCODE_CWD = /home/rcarrasco
-# default
-MAKE_COMMAND := make
-# environment
-VSCODE_HANDLES_SIGPIPE = true
 # automatic
-@D = $(patsubst %/,%,$(dir $@))
-# environment
-VSCODE_HANDLES_UNCAUGHT_ERRORS = true
-# default
-.VARIABLES := 
-# environment
-PWD = /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
+ 
+<D = $(patsubst %/,%,$(dir $<))
 # automatic
-%D = $(patsubst %/,%,$(dir $%))
-# environment
-LSCOLORS = Gxfxcxdxbxegedabagacad
-# environment
-MAIL = /var/spool/mail/rcarrasco
-# environment
-OLDPWD = /home/rcarrasco
-# automatic
-^D = $(patsubst %/,%,$(dir $^))
-# automatic
-%F = $(notdir $%)
-# environment
-LANG = C
-# default
-.LOADED := 
-# default
-.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
-# makefile
-MAKEFLAGS = pqrR
-# makefile
-CURDIR := /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
-# environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
-# automatic
-*D = $(patsubst %/,%,$(dir $*))
-# environment
-MFLAGS = -pqrR
+?F = $(notdir $?)
 # default
 .SHELLFLAGS := -c
-# automatic
-+D = $(patsubst %/,%,$(dir $+))
-# makefile (from 'Makefile', line 1)
-MAKEFILE_LIST := Makefile
-# automatic
-@F = $(notdir $@)
 # environment
-ZSH = /home/rcarrasco/.oh-my-zsh
-# environment
-XDG_SESSION_TYPE = tty
-# environment
-CUDA_PATH = /opt/cuda
+VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
-*F = $(notdir $*)
-# environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1008/bus
+@D = $(patsubst %/,%,$(dir $@))
 # automatic
-<D = $(patsubst %/,%,$(dir $<))
-# environment
-VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
-# default
-MAKE_HOST := x86_64-pc-linux-gnu
+@F = $(notdir $@)
+# makefile
+CURDIR := /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
 # makefile
 SHELL = /bin/sh
-# default
-MAKECMDGOALS := all
 # environment
-SHLVL = 2
+VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-MAKELEVEL := 0
-# default
-MAKE = $(MAKE_COMMAND)
-# environment
-PATH = /home/rcarrasco/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin
-# default
-MAKEFILES := 
-# environment
-MOTD_SHOWN = pam
-# automatic
-^F = $(notdir $^)
-# environment
-SSH_CLIENT = 201.214.231.115 59514 22337
-# automatic
-?F = $(notdir $?)
-# environment
-CUDA_DEVICE_ORDER = PCI_BUS_ID
-# environment
-MKLROOT = /opt/intel/mkl
-# environment
-LS_COLORS = 
-# automatic
-+F = $(notdir $+)
-# environment
-LESS = -R
+_ = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/node
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
-BROWSER = /home/rcarrasco/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/bin/helpers/browser.sh
+VSCODE_CWD = /home/rcarrasco
 # environment
-LOGNAME = rcarrasco
-# makefile
-.DEFAULT_GOAL := all
+SSH_CONNECTION = 201.214.231.115 49777 146.83.216.133 2237
 # environment
-USER = rcarrasco
+PATH = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-3defbbd6-289c-4785-b904-d4954b78a9e7.sock
 # default
-MAKE_VERSION := 4.3
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
-PAGER = less
+LS_COLORS = 
+# automatic
+%F = $(notdir $%)
 # environment
-VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server
-# environment
-_ = /usr/bin/make
-# environment
-MOZ_PLUGIN_PATH = /usr/lib/mozilla/plugins
-# environment
-XDG_RUNTIME_DIR = /run/user/1008
-# environment
-NSYSTEM = /home/rcarrasco/nSystem/nsystem64-beta2
-# environment
-VSCODE_IPC_HOOK_CLI = /run/user/1008/vscode-ipc-7929689f-aa59-4982-8fd7-b975cbf25aa8.sock
-# environment
-XDG_SESSION_CLASS = user
+PWD = /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
+# default
+.LOADED := 
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/rcarrasco
 # environment
-ELECTRON_RUN_AS_NODE = 1
- 
+LOGNAME = rcarrasco
 # environment
-XDG_SESSION_ID = 310
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# automatic
++F = $(notdir $+)
+# environment
+ZSH = /home/rcarrasco/.oh-my-zsh
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+MAKELEVEL := 0
 # default
-.RECIPEPREFIX := 
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+SHLVL = 1
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = rcarrasco
+# makefile
+.DEFAULT_GOAL := all
+# environment
+LESS = -R
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := make
+# environment
+OLDPWD = /home/rcarrasco
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_CLIENT = 201.214.231.115 49777 2237
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+BROWSER = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/helpers/browser.sh
+# environment
+VSCODE_HANDLES_SIGPIPE = true
+# default
+MAKEFILES := 
 # automatic
 <F = $(notdir $<)
+# environment
+PAGER = less
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
 # default
 SUFFIXES := 
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# default
+.RECIPEPREFIX := 
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-SSH_CONNECTION = 201.214.231.115 59514 146.83.216.139 22337
+LANG = C
+# environment
+MOTD_SHOWN = pam
 # variable set hash-table stats:
-# Load=74/1024=7%, Rehash=0, Collisions=3/107=3%
+# Load=63/1024=6%, Rehash=0, Collisions=7/91=8%
 
 # Pattern-specific Variable Values
 
@@ -169,7 +146,7 @@ SSH_CONNECTION = 201.214.231.115 59514 146.83.216.139 22337
 
 # Directories
 
-# . (device 66306, inode 25272344): 12 files, no impossibilities.
+# . (device 142, inode 128873224873): 12 files, no impossibilities.
 
 # 12 files, no impossibilities in 1 directories.
 
@@ -178,47 +155,6 @@ SSH_CONNECTION = 201.214.231.115 59514 146.83.216.139 22337
 # No implicit rules.
 
 # Files
-
-# Not a target:
-kernel.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-18 16:43:12.118176378
-#  File has been updated.
-#  Successfully updated.
-
-alt:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 5):
-	test index
-
-clean:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 17):
-	-rm *.o *.a
-
-scan.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 11):
-	nvcc -O3 -arch sm_70 -c src/scan.cu
-
-# Not a target:
-.DEFAULT:
- 
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 
 all:
 #  Command line target.
@@ -230,23 +166,30 @@ all:
 # automatic
 # @ := all
 # automatic
-# * := 
+# % := 
 # automatic
-# < := 
+# * := 
 # automatic
 # + := 
 # automatic
-# % := 
+# | := 
+# automatic
+# < := 
 # automatic
 # ^ := 
 # automatic
 # ? := 
-# automatic
-# | := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'Makefile', line 2):
 	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu
+
+scan.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 11):
+	nvcc -O3 -arch sm_70 -c src/scan.cu
 
 index: kernel.o
 #  Implicit rule search has not been done.
@@ -254,6 +197,25 @@ index: kernel.o
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 14):
 	ar rc scan.a scan.o
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-21 02:15:13.753282106
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+kernel.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 test:
 #  Implicit rule search has not been done.
@@ -264,10 +226,24 @@ test:
 	
 
 # Not a target:
-.SUFFIXES:
+.DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 17):
+	-rm *.o *.a
+
+alt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 5):
+	test index
 
 # files hash-table stats:
 # Load=10/1024=1%, Rehash=0, Collisions=0/23=0%
@@ -282,7 +258,7 @@ test:
 
 # strcache performance: lookups = 35 / hit rate = 34%
 # hash-table stats:
-# Load=23/8192=0%, Rehash=0, Collisions=0/35=0%
-# Finished Make data base on Thu Jul 21 16:49:41 2022
+# Load=23/8192=0%, Rehash=0, Collisions=1/35=3%
+# Finished Make data base on Sun Jul 24 23:00:46 2022
 
  

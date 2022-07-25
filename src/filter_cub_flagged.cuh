@@ -18,6 +18,7 @@ public:
 
     // compacting vector
     char *d_vec_inQ;
+    float *d_c;
 
     // key value pair for extremes of the polygon
     cub::KeyValuePair<int, float> *d_ri, *d_le, *d_lo, *d_up;
@@ -59,7 +60,6 @@ public:
         cudaMalloc(&d_c3, sizeof(cub::KeyValuePair<int, float>));
         cudaMalloc(&d_c4, sizeof(cub::KeyValuePair<int, float>));
 
-        float *d_c;
         cudaMalloc(&d_c, sizeof(float) * n);
 
         // compute the manhattan distance and find the minimum
@@ -141,7 +141,6 @@ public:
         cudaMalloc(&d_c3, sizeof(cub::KeyValuePair<int, float>));
         cudaMalloc(&d_c4, sizeof(cub::KeyValuePair<int, float>));
 
-        float *d_c;
         cudaMalloc(&d_c, sizeof(float) * n);
 
         // compute the manhattan distance and find the minimum
@@ -259,6 +258,45 @@ public:
         printf("\n");
 
         printf("compacted size: %d\n", size);
+    }
+
+    void delete_filter(){
+        // delete host variables
+        //delete[] x;
+        //delete[] y;
+        delete h_q;
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
+
+        // delete device variables
+        cudaFree(d_x);
+        cudaFree(d_y);
+        cudaFree(d_ri);
+        cudaFree(d_le);
+        cudaFree(d_lo);
+        cudaFree(d_up);
+        cudaFree(d_c1);
+        cudaFree(d_c2);
+        cudaFree(d_c3);
+        cudaFree(d_c4);
+        cudaFree(d_c);
+       /* cudaFree(d_m1);
+        cudaFree(d_m2);
+        cudaFree(d_m3);
+        cudaFree(d_m4);
+        cudaFree(d_m1b);
+        cudaFree(d_m2b);
+        cudaFree(d_m3b);
+        cudaFree(d_m4b);
+        cudaFree(d_mh); // */
+        cudaFree(d_vec_inQ);
+        cudaFree(d_q);
+        cudaFree(d_qa);
+        cudaFree(d_size);
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
     }
 
 };

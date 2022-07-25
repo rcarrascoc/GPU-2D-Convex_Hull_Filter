@@ -7,3 +7,4 @@
 #include "filter_cub_flagged.cuh"
 #include "filter_thrust_scan.cuh"
 #include "filter_thrust_copy.cuh"
+#include "filter_cpu_serial.hpp"

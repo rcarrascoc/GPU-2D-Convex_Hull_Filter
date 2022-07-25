@@ -17,13 +17,12 @@ public:
 
     // compacting vector
     Point *p;
-    char *d_vec_inQ;
+    Point *d_p;
 
     void thrust_copy(){
         auto ffx = [=] __host__ __device__ (Point lhs, Point rhs) { return lhs.x < rhs.x; };
 	    auto ffy = [=] __host__ __device__ (Point lhs, Point rhs) { return lhs.y < rhs.y; };
 
-        Point *d_p;
         cudaMalloc(&d_p, sizeof(Point)*n);
         cudaMemcpy(d_p, p, sizeof(Point)*n, cudaMemcpyHostToDevice);
 
@@ -247,5 +246,20 @@ public:
         printf("\n");
 
         printf("compacted size: %d\n", size);
+    }
+
+    void delete_filter(){
+        // delete host variables
+        //delete[] x;
+        //delete[] y;
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
+
+        // delete device variables
+        cudaFree(d_p);
+
+        cudaDeviceSynchronize();
+        kernelCallCheck();
     }
 };
