@@ -120,14 +120,16 @@ void compaction_copy_thrust(T *d_in, B *d_bit_set, T *d_out, int n){
 }*/
 
 template <typename T, typename V>
-__global__ void compact_partial_sums(T *output, INDEX *d_num, T *input, V *partial_sums, T *segmented_partial_sums, INDEX num_elements) {
+__global__ void compact_partial_sums(T *output, INDEX *d_num, T *input, V *partial_sums, T *segmented_partial_sums, V *d_bit_vector, INDEX num_elements) {
 	INDEX offset = threadIdx.x + blockIdx.x * blockDim.x;
 	//const INDEX globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
 	INDEX globalSegmentIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WMMA_TILE_SIZE;
 	if (offset < num_elements) {
-		INDEX ind = (INDEX) partial_sums[offset] + segmented_partial_sums[globalSegmentIdx];
-        if (ind > 0)
-            output[ind-1] = input[offset];
+        INDEX ind = (INDEX) partial_sums[offset] + segmented_partial_sums[globalSegmentIdx];
+        if ((int)d_bit_vector[offset] == 1){
+            if (ind > 0)
+                output[ind-1] = input[offset];
+        }
         if (offset == num_elements - 1)
             *d_num = ind;
 	}
@@ -146,7 +148,7 @@ void compaction_tc_scan(T *d_out, INDEX *d_num, V *d_bit_vector, T *d_in, INDEX 
     compute_wmma_segmented_prefixsum_256n_block_ps<T,V><<<gridDim, blockDim>>>(d_bit_vector, partial_sums, segmented_partial_sums, n); kernelCallCheck();
     cudaDeviceSynchronize();
 	scan_parallel_cub<T>(segmented_partial_sums,segmented_partial_sums,num_segments); kernelCallCheck();
-	compact_partial_sums<T,V><<<(n+BSIZE-1)/BSIZE+1, BSIZE>>>(d_out, d_num, d_in, partial_sums, segmented_partial_sums, n); kernelCallCheck();
+	compact_partial_sums<T,V><<<(n+BSIZE-1)/BSIZE+1, BSIZE>>>(d_out, d_num, d_in, partial_sums, segmented_partial_sums, d_bit_vector, n); kernelCallCheck();
     cudaDeviceSynchronize();//*/
 	// free memorry
 	cudaFree(segmented_partial_sums);

@@ -1,16 +1,21 @@
 #include <stdio.h>
 #include <string>
+#include <cfloat>
 
 // define global variables
-#define REAL float // define the real type
-#define INDEX uint // index type
+#define REAL float // define the real type, really not implemented yet
+//#define INDEX uint // index type
 #define REPEATS 20 // number of repetitions of the benchmark
 
+// include the header file of the library
 // include filter.cuh
 #include "src/filter.cuh"
 
-// include tool functions
+// include tool functions, generated and printed by the tool
 #include "src/tools.cpp"
+
+// include cgal functions
+#include "src/cgal_convex_hull.cpp"
 
 using namespace std;
 
@@ -18,6 +23,10 @@ using namespace std;
 #define test2(ffthis, ffx, ffy, ffn, ffalg) ffalg *ffthis = new ffalg(ffx,ffy,ffn)
 #define test3(ffthis, ffx, ffy, ffn, ffalg) ffthis = new ffalg(ffx,ffy,ffn)
 #define test4(ffthis, ffp, ffn, ffalg) ffthis = new ffalg(ffp,ffn)
+
+
+// include benchmark functions
+//#include "src/benchmark.cu"
 
 string arr_alg[6] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if"};
 string arr_shape[3] = {"normal distribution", "uniform distribution", "circumference distribution"};
@@ -30,8 +39,8 @@ int main(int argc, char *argv[]) {
     if (argc != 5) {
         printf("Error: wrong number of arguments\n");
         printf("Usage: ./main size algorithm shape probability\n");
-        printf("size: size of the array\n");
-        printf("algorithm: 0 kernel, 1 thrust-scan, 2 thrust-copy, 3 cub-flagged \n");
+        printf("size: number of points\n");
+        printf("algorithms: 0 kernel, 1 thrust-scan, 2 thrust-copy, 3 cub-flagged \n");
         printf("shape: 0 for uniform, 1 for normal, 2 for circumference\n");
         printf("probability: [0..1] probability of the distribution\n");
         return 1;
@@ -58,7 +67,7 @@ int main(int argc, char *argv[]) {
     // initialize x and y arrays of type REAL
     REAL *x = new REAL[size];
     REAL *y = new REAL[size];
-    INDEX filtered_size;
+    INDEX filtered_size, hull_size;
 
     // call the corresponding function
     // for generating x and y arrays
@@ -81,27 +90,23 @@ int main(int argc, char *argv[]) {
     //print_points(x, y, size);
 
     // start the timer
-    float cuda_time = 0.0f, cuda_time_acc = 0.0f;
-    cudaEvent_t start, stop;
-    cudaEventCreate(&start);
-    cudaEventCreate(&stop);
-    cudaDeviceSynchronize();
+	cuda_time_m *time = new cuda_time_m();
+	time->init();
 
     //test2(thisHull, x, y, size, filter_gpu_scan);
 
     if (algorithm == 0) {
         filter_cpu_serial *thisHull;
         for (int i = 0; i < REPEATS; i++){
-            cudaEventRecord(start);
+	        time->start();
             test3(thisHull, x, y, size, filter_cpu_serial);
             thisHull->cpu_manhattan();
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-            cudaEventElapsedTime(&cuda_time, start, stop);
-            cuda_time_acc += cuda_time;
+            convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
+	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -109,16 +114,15 @@ int main(int argc, char *argv[]) {
     if (algorithm == 1) {
         filter_cpu_serial *thisHull;
         for (int i = 0; i < REPEATS; i++){
-            cudaEventRecord(start);
+            time->start();
             test3(thisHull, x, y, size, filter_cpu_serial);
             thisHull->cpu_euclidean();
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-            cudaEventElapsedTime(&cuda_time, start, stop);
-            cuda_time_acc += cuda_time;
+            convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
+	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -128,17 +132,15 @@ int main(int argc, char *argv[]) {
         test3(thisHull, x, y, size, filter_gpu_scan);
         thisHull->delete_filter();
         delete thisHull;
-        cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
-            cudaEventRecord(start);
+            time->start();
             test3(thisHull, x, y, size, filter_gpu_scan);
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-            cudaEventElapsedTime(&cuda_time, start, stop);
-            cuda_time_acc += cuda_time;
+            convexHull_2<filter_gpu_scan,INDEX>(thisHull, x, y, size);
+	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -148,18 +150,16 @@ int main(int argc, char *argv[]) {
         test3(thisHull, x, y, size, filter_cub_flagged);
         thisHull->delete_filter();
         delete thisHull;
-        cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
-            cudaEventRecord(start);
+            time->start();
             test3(thisHull, x, y, size, filter_cub_flagged);
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-            cudaEventElapsedTime(&cuda_time, start, stop);
-            cuda_time_acc += cuda_time;
+            convexHull_2<filter_cub_flagged,INDEX>(thisHull, x, y, size);
+	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            thisHull->delete_filter();
             filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
+            thisHull->delete_filter();
             delete thisHull;
         }
     }
@@ -168,18 +168,16 @@ int main(int argc, char *argv[]) {
         test3(thisHull, x, y, size, filter_thrust_scan);
         thisHull->delete_filter();
         delete thisHull;
-        cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
-            cudaEventRecord(start);
+            time->start();
             test3(thisHull, x, y, size, filter_thrust_scan);
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-            cudaEventElapsedTime(&cuda_time, start, stop);
-            cuda_time_acc += cuda_time;
+            convexHull_2<filter_thrust_scan,INDEX>(thisHull, x, y, size);
+	        time->pause();
+            filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             thisHull->delete_filter();
-            filtered_size = thisHull->size;
             delete thisHull;
         }
     }
@@ -194,25 +192,25 @@ int main(int argc, char *argv[]) {
         test4(thisHull, points, size, filter_thrust_copy);
         thisHull->delete_filter();
         delete thisHull;
-        cudaDeviceSynchronize();
         for (int i = 0; i < REPEATS; i++){
-            cudaEventRecord(start);
+            time->start();
             test4(thisHull, points, size, filter_thrust_copy);
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-            cudaEventElapsedTime(&cuda_time, start, stop);
-            cuda_time_acc += cuda_time;
+            convexHull_2<filter_thrust_copy,INDEX>(thisHull, points, size);
+	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
             thisHull->delete_filter();
             delete thisHull;
         }
         delete [] points;
     }
 
+    //benchmark(cuda_time_acc, x, y, algorithm, size);
+
     //printf("Time: %f\n", cuda_time_acc/REPEATS);
-    printf("%f %i %i\n",cuda_time_acc/REPEATS, filtered_size, 0);
+    printf("%f %i %i\n",time->get_time()/REPEATS, filtered_size, hull_size);
 
     // free memory
     delete x;

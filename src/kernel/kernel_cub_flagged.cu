@@ -1,17 +1,3 @@
-// gpu calculate the manhattan distance between a points and a corner of the grid
-//template <typename T>
-__global__ void compute_manhattan(float *d_dist, float *d_x, float *d_y, float xc, float yc, INDEX n){
-    INDEX offset = blockIdx.x * blockDim.x + threadIdx.x;
-    if(offset < n){
-        // compute the manhattan distance
-        float x = d_x[offset];
-        float y = d_y[offset];
-        float dx = x - xc;
-        float dy = y - yc;
-        d_dist[offset]  = (fabsf(dx) + fabsf(dy));
-    }
-}
-
 __global__ void compute_manhattan(float *d_dist, float *d_x, float *d_y, 
             cub::KeyValuePair<int, float> *xc, cub::KeyValuePair<int, float> *yc, INDEX n){
     INDEX offset = blockIdx.x * blockDim.x + threadIdx.x;

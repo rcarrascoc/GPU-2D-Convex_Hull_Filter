@@ -6,13 +6,13 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jul 24 23:00:46 2022
+# Make data base, printed on Mon Aug  1 20:20:58 2022
 
 # Variables
 
 # automatic
- 
 <D = $(patsubst %/,%,$(dir $<))
+ 
 # automatic
 ?F = $(notdir $?)
 # default
@@ -40,7 +40,7 @@ GNUMAKEFLAGS :=
 # environment
 VSCODE_CWD = /home/rcarrasco
 # environment
-SSH_CONNECTION = 201.214.231.115 49777 146.83.216.133 2237
+SSH_CONNECTION = 201.214.231.115 56073 146.83.216.133 2237
 # environment
 PATH = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # environment
@@ -48,7 +48,7 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-3defbbd6-289c-4785-b904-d4954b78a9e7.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2273e1fd-f04e-4018-9488-ab4e87ab9bd0.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -108,7 +108,7 @@ MAKEFLAGS = pqrR
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_CLIENT = 201.214.231.115 49777 2237
+SSH_CLIENT = 201.214.231.115 56073 2237
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
@@ -146,9 +146,9 @@ MOTD_SHOWN = pam
 
 # Directories
 
-# . (device 142, inode 128873224873): 12 files, no impossibilities.
+# . (device 142, inode 128873224873): 14 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 14 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -156,47 +156,43 @@ MOTD_SHOWN = pam
 
 # Files
 
-all:
-#  Command line target.
+link: filter.o
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
-# @ := all
+# @ := link
 # automatic
 # % := 
 # automatic
 # * := 
 # automatic
-# + := 
+# + := filter.o
 # automatic
 # | := 
 # automatic
-# < := 
+# < := filter.o
 # automatic
-# ^ := 
+# ^ := filter.o
 # automatic
-# ? := 
+# ? := filter.o
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  recipe to execute (from 'Makefile', line 8):
+	ar rc filter.a filter.o
+
+all: link
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 2):
-	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu
-
-scan.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 11):
-	nvcc -O3 -arch sm_70 -c src/scan.cu
-
-index: kernel.o
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 14):
-	ar rc scan.a scan.o
+	nvcc -O3 -o prog main.cpp -lgmp filter.a
 
 # Not a target:
 .SUFFIXES:
@@ -207,23 +203,9 @@ index: kernel.o
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-21 02:15:13.753282106
+#  Last modified 2022-08-01 12:35:26.050006318
 #  File has been updated.
 #  Successfully updated.
-
-# Not a target:
-kernel.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-test:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 8):
-	nvcc -O3 -o prog main.cpp
-	
 
 # Not a target:
 .DEFAULT:
@@ -235,30 +217,38 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 17):
-	-rm *.o *.a
+#  recipe to execute (from 'Makefile', line 14):
+	rm -f prog filter.o filter.a
 
 alt:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+#  recipe to execute (from 'Makefile', line 11):
+	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
+
+filter.o:
+#  Implicit rule search has not been done.
+#  Last modified 2022-08-01 19:56:21.443988817
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 5):
-	test index
+	nvcc -O3 -arch sm_70 --extended-lambda -c src/filter.cu
 
 # files hash-table stats:
-# Load=10/1024=1%, Rehash=0, Collisions=0/23=0%
+# Load=8/1024=1%, Rehash=0, Collisions=0/23=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 23 / storage = 164 B / avg = 7 B
-# current buf: size = 8162 B / used = 164 B / count = 23 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 22 / storage = 161 B / avg = 7 B
+# current buf: size = 8162 B / used = 161 B / count = 22 / avg = 7 B
 
-# strcache performance: lookups = 35 / hit rate = 34%
+# strcache performance: lookups = 36 / hit rate = 38%
 # hash-table stats:
-# Load=23/8192=0%, Rehash=0, Collisions=1/35=3%
-# Finished Make data base on Sun Jul 24 23:00:46 2022
+# Load=22/8192=0%, Rehash=0, Collisions=1/36=3%
+# Finished Make data base on Mon Aug  1 20:20:58 2022
 
  

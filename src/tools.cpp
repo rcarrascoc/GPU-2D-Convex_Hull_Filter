@@ -123,11 +123,11 @@ void generate_random_points_circumference(T *X, T *Y, INDEX n, double prob){
 	}
 }
 
-// print the x and y arrays of size n
+/*// print the x and y arrays of size n
 template <typename T>
 void print_points(T* x, T* y, INDEX n) {
 	for (int i = 0; i < n; i++) {
 		std::cout << x[i] << " " << y[i] << std::endl;
 	}
 	std::cout << std::endl;
-}
+} */

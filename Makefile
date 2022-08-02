@@ -1,17 +1,14 @@
-all: 
-	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu
+all: link
+	nvcc -O3 -o prog main.cpp -lgmp filter.a
 
-alt:
-	test index
+filter.o:
+	nvcc -O3 -arch sm_70 --extended-lambda -c src/filter.cu
 
-test:
-	nvcc -O3 -o prog main.cpp
-	
-scan.o:
-	nvcc -O3 -arch sm_70 -c src/scan.cu
+link: filter.o
+	ar rc filter.a filter.o
 
-index: kernel.o
-	ar rc scan.a scan.o
+alt: 
+	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
 
-clean: 
-	-rm *.o *.a
+clean:
+	rm -f prog filter.o filter.a

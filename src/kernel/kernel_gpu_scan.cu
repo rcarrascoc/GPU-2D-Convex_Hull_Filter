@@ -161,23 +161,23 @@ __global__ void kernel_inPointsInQ(   float *X, float *Y, INDEX n,
                                         T *Q, INDEX *qa   ){
                                 
 	INDEX i = blockIdx.x * blockDim.x + threadIdx.x; 
-	Q[i] = 0;
+	Q[i] = 0.0f;
 	float m, x, y;
 	if(i < n){
-		qa[i] = i;
+		qa[i] = (INDEX)i;
 		x=X[i];y=Y[i];
 		if(x!=xri){
 			m=(y-yri)/(x-xri);									// slope(i, ri1);
 			if(m<mh){												// p_i is above horizontal line (le2...ri1)
 				if(x>xup){
 					if ((m<m1)||(x<xc1 && (y-yc1)/(x-xc1)<m1b)){
-						Q[i] = 1;
+						Q[i] = 1.0f;
 					}
 				}else{
 					if(x<xup){
 						m=(y-yup)/(x-xup);						// slope(i, up2);
 						if ((m<m2)||(x<xc2 && (y-yc2)/(x-xc2)<m2b)){
-							Q[i] = 1;
+							Q[i] = 1.0f;
 						}
 					}
 				}
@@ -185,13 +185,13 @@ __global__ void kernel_inPointsInQ(   float *X, float *Y, INDEX n,
 				if(x<xlo){
 					m=(y-yle)/(x-xle);							//slope(i, le3);
 					if ((m<m3)||(x>xc3 && (y-yc3)/(x-xc3)<m3b)){	//slope(i, c3);
-						Q[i] = 1;
+						Q[i] = 1.0f;
 					}
 				}else{
 					if(x>xlo){
 						m=(y-ylo)/(x-xlo);						// slope(i, lo4);
 						if ((m<m4)||(x>xc4 && (y-yc4)/(x-xc4)<m4b)){// slope(i, c4);
-                            Q[i] = 1;
+                            Q[i] = 1.0f;
 						}
 					}
 				}
@@ -199,3 +199,4 @@ __global__ void kernel_inPointsInQ(   float *X, float *Y, INDEX n,
 		}
 	}
 }
+
