@@ -5,7 +5,7 @@
 // define global variables
 #define REAL float // define the real type, really not implemented yet
 //#define INDEX uint // index type
-#define REPEATS 20 // number of repetitions of the benchmark
+#define REPEATS 10 // number of repetitions of the benchmark
 
 // include the header file of the library
 // include filter.cuh
@@ -28,7 +28,7 @@ using namespace std;
 // include benchmark functions
 //#include "src/benchmark.cu"
 
-string arr_alg[6] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if"};
+string arr_alg[8] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if","convex_hull_2","andrew_graham"};
 string arr_shape[3] = {"normal distribution", "uniform distribution", "circumference distribution"};
 
 // main function
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     // initialize x and y arrays of type REAL
     REAL *x = new REAL[size];
     REAL *y = new REAL[size];
-    INDEX filtered_size, hull_size;
+    INDEX filtered_size = 0, hull_size = 0;
 
     // call the corresponding function
     // for generating x and y arrays
@@ -206,11 +206,43 @@ int main(int argc, char *argv[]) {
         }
         delete [] points;
     }
+    else if (algorithm == 6){
+        std::vector<Point_2> points;
+        std::vector<Point_2> result;
+        for (INDEX i = 0; i < size; i++){
+            points.push_back( Point_2(x[i],y[i]));
+        }
+        for (int i = 0; i < REPEATS; i++){
+            time->start();
+            cgal_2<INDEX>(&result, points, size);
+            time->pause();
+            hull_size = result.size();
+            // delete result amd points
+            result.clear();
+        }
+        points.clear();
+    }
+    else if (algorithm == 7){
+        std::vector<Point_2> points;
+        std::vector<Point_2> result;
+        for (INDEX i = 0; i < size; i++){
+            points.push_back( Point_2(x[i],y[i]));
+        }
+        for (int i = 0; i < REPEATS; i++){
+            time->start();
+            cgal<INDEX>(&result, points, size);
+            time->pause();
+            hull_size = result.size();
+            // delete result amd points
+            result.clear();
+        }
+        points.clear();
+    }
 
     //benchmark(cuda_time_acc, x, y, algorithm, size);
 
     //printf("Time: %f\n", cuda_time_acc/REPEATS);
-    printf("%f %i %i\n",time->get_time()/REPEATS, filtered_size, hull_size);
+    printf("%f %i %i\n",(float)time->get_time()/REPEATS, filtered_size, hull_size);
 
     // free memory
     delete x;

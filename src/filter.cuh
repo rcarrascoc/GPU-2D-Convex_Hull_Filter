@@ -32,7 +32,7 @@ public:
     float *d_out_x, *d_out_y;
     float *out_x, *out_y;
     INDEX *h_q;
-    INDEX sizeHull;
+    INDEX sizeHull = 0;
 
     void print_extremes();
 

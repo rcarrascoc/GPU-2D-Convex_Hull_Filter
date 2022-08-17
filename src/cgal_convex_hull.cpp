@@ -1,4 +1,4 @@
-#include "cgal_convex_hull.h"
+//#include "cgal_convex_hull.h"
 #include <array>
 #include <vector>
 #include <numeric>
@@ -106,4 +106,18 @@ void convexHull_2(HullType *my, Point *p, INDEX_TYPE n){
 
     CGAL::convex_hull_2( points.begin(), points.end(), std::back_inserter(result) );
     my->sizeHull = result.size(); //*/
+}
+
+template <typename INDEX_TYPE>
+void cgal_2(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n){
+	std::vector<Point_2> result;
+    CGAL::convex_hull_2( points.begin(), points.end(), std::back_inserter(result) );
+	*output = result;
+}
+
+template <typename INDEX_TYPE>
+void cgal(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n){
+	std::vector<Point_2> result;
+    CGAL::ch_graham_andrew( points.begin(), points.end(), std::back_inserter(result) );
+	*output = result;
 }

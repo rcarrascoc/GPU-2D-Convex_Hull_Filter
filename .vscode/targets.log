@@ -5,14 +5,14 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Mon Aug  1 20:20:58 2022
+# Make data base, printed on Sat Aug 13 14:41:16 2022
 
 # Variables
 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
- 
 # automatic
 ?F = $(notdir $?)
 # default
@@ -32,7 +32,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/node
+_ = /home/rcarrasco/.vscode-server/bin/6d9b74a70ca9c7733b29f0456fd8195364076dda/node
 # makefile (from 'Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
 # 'override' directive
@@ -40,15 +40,15 @@ GNUMAKEFLAGS :=
 # environment
 VSCODE_CWD = /home/rcarrasco
 # environment
-SSH_CONNECTION = 201.214.231.115 56073 146.83.216.133 2237
+SSH_CONNECTION = 201.214.231.115 56645 146.83.216.133 2237
 # environment
-PATH = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/rcarrasco/.vscode-server/bin/6d9b74a70ca9c7733b29f0456fd8195364076dda/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2273e1fd-f04e-4018-9488-ab4e87ab9bd0.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-019b3953-7cfa-4186-a598-5f2030d9e6bd.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -108,11 +108,11 @@ MAKEFLAGS = pqrR
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_CLIENT = 201.214.231.115 56073 2237
+SSH_CLIENT = 201.214.231.115 56645 2237
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
-BROWSER = /home/rcarrasco/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/helpers/browser.sh
+BROWSER = /home/rcarrasco/.vscode-server/bin/6d9b74a70ca9c7733b29f0456fd8195364076dda/bin/helpers/browser.sh
 # environment
 VSCODE_HANDLES_SIGPIPE = true
 # default
@@ -146,9 +146,9 @@ MOTD_SHOWN = pam
 
 # Directories
 
-# . (device 142, inode 128873224873): 14 files, no impossibilities.
+# . (device 58, inode 128873224873): 16 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 16 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -192,7 +192,7 @@ all: link
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 2):
-	nvcc -O3 -o prog main.cpp -lgmp filter.a
+	nvcc -O3 -o prog3 main.cpp -lgmp filter.a
 
 # Not a target:
 .SUFFIXES:
@@ -203,9 +203,16 @@ all: link
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-01 12:35:26.050006318
+#  Last modified 2022-08-10 22:22:04.898327187
 #  File has been updated.
 #  Successfully updated.
+
+raw:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 14):
+	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
 
 # Not a target:
 .DEFAULT:
@@ -217,38 +224,38 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 14):
+#  recipe to execute (from 'Makefile', line 17):
 	rm -f prog filter.o filter.a
 
-alt:
+alt: link
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 11):
-	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
+	nvcc -O3 -o prog3 main.cpp filter.a -I/home/linuxbrew/.linuxbrew/opt/cgal/include/ -I/home/linuxbrew/.linuxbrew/opt/boost/include
 
 filter.o:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-01 19:56:21.443988817
+#  Last modified 2022-08-09 02:25:19.313688828
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 5):
 	nvcc -O3 -arch sm_70 --extended-lambda -c src/filter.cu
 
 # files hash-table stats:
-# Load=8/1024=1%, Rehash=0, Collisions=0/23=0%
+# Load=9/1024=1%, Rehash=0, Collisions=0/25=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 22 / storage = 161 B / avg = 7 B
-# current buf: size = 8162 B / used = 161 B / count = 22 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 25 / storage = 177 B / avg = 7 B
+# current buf: size = 8162 B / used = 177 B / count = 25 / avg = 7 B
 
-# strcache performance: lookups = 36 / hit rate = 38%
+# strcache performance: lookups = 41 / hit rate = 39%
 # hash-table stats:
-# Load=22/8192=0%, Rehash=0, Collisions=1/36=3%
-# Finished Make data base on Mon Aug  1 20:20:58 2022
+# Load=25/8192=0%, Rehash=0, Collisions=1/41=2%
+# Finished Make data base on Sat Aug 13 14:41:16 2022
 
  
