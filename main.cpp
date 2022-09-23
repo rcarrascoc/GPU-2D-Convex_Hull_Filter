@@ -238,6 +238,7 @@ int main(int argc, char *argv[]) {
         }
         points.clear();
     }
+    
 
     //benchmark(cuda_time_acc, x, y, algorithm, size);
 
