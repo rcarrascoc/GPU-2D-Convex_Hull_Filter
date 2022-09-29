@@ -35,7 +35,7 @@ static const int K              = 16;
 static const int WMMA_TILE_SIZE = (M * N);
 
 // kernel convert to half
-__global__ void convert_to_half(float *in, half *out, int n) {
+__global__ void convert_to_half(half *out,float *in, int n) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {
         out[idx] = __float2half(in[idx]);
@@ -43,7 +43,7 @@ __global__ void convert_to_half(float *in, half *out, int n) {
 }
 
 template <typename T>
-__global__ void convert_to_half(T *in, half *out, int n) {
+__global__ void convert_to_half(half *out, T *in, int n) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {
         out[idx] = in[idx];
@@ -52,7 +52,7 @@ __global__ void convert_to_half(T *in, half *out, int n) {
 
 // kernel convert form half to T 
 template <typename T>
-__global__ void convert_from_half(half *in, T *out, int n) {
+__global__ void convert_from_half(T *out, half *in, int n) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) {
         out[idx] = in[idx];

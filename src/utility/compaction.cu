@@ -7,8 +7,8 @@
 // the output is a array of integers.
 // The output array has the same size of the input array.
 template <typename T, typename V>
-void compaction_serial(T *output, INDEX *h_num, V *auxiliary, T *input, INDEX size){
-    INDEX i, j=0;
+void compaction_serial(T *output, T *h_num, V *auxiliary, T *input, T size){
+    int i, j=0;
     for (i = 0; i < size; i++)
     {
         if (auxiliary[i] == 1)
@@ -27,8 +27,8 @@ void compaction_serial(T *output, INDEX *h_num, V *auxiliary, T *input, INDEX si
 // the output is a array of integers.
 // The output array has the same size of the input array.
 template <typename T, typename V>
-void compaction_parallel(T *output, INDEX *h_num, V *auxiliary, T *input, INDEX size){
-    INDEX i, j=0;
+void compaction_parallel(T *output, T *h_num, V *auxiliary, T *input, T size){
+    int i, j=0;
     #pragma omp parallel for
     for (i = 0; i < size; i++)
     {
@@ -49,8 +49,8 @@ void compaction_parallel(T *output, INDEX *h_num, V *auxiliary, T *input, INDEX 
 // the output array has the same size of the input array.
 // this function is in GPU.
 template <typename T, typename V>
-__global__ void store_array(T *output, INDEX *d_num, V *auxiliary, T *scan, T *input, INDEX n){
-    INDEX off = threadIdx.x + blockIdx.x * blockDim.x;
+__global__ void store_array(T *output, T *d_num, V *auxiliary, T *scan, T *input, T n){
+    int off = threadIdx.x + blockIdx.x * blockDim.x;
     if (off < n){
         // debug: print of variable, the element of the input array, auxiliary array and output array.
         //printf("%d %d %d %d\n", off, input[off], auxiliary[off], output[off]);
@@ -69,11 +69,11 @@ __global__ void store_array(T *output, INDEX *d_num, V *auxiliary, T *scan, T *i
 // the output is a array of integers.
 // The output array has the same size of the input array.
 template <typename T, typename V>
-void compaction_cub_scan(T *d_out, INDEX *d_num, V *bit_vector, T *d_in, INDEX n){
-    INDEX *aux_scan;
-    cudaMalloc(&aux_scan, sizeof(INDEX)*n);
-    cudaMemset(aux_scan, 0, sizeof(INDEX)*n);
-    scan_parallel_cub<INDEX>(bit_vector, aux_scan, n);  kernelCallCheck();
+void compaction_cub_scan(T *d_out, T *d_num, V *bit_vector, T *d_in, T n){
+    int *aux_scan;
+    cudaMalloc(&aux_scan, sizeof(int)*n);
+    cudaMemset(aux_scan, 0, sizeof(int)*n);
+    scan_parallel_cub<int>(bit_vector, aux_scan, n);  kernelCallCheck();
     store_array<<<(n+BSIZE-1)/BSIZE, BSIZE>>>(d_out, d_num, bit_vector, aux_scan, d_in, n);
     cudaDeviceSynchronize();  kernelCallCheck();
     //cudaFree(aux_scan);
@@ -85,7 +85,7 @@ void compaction_cub_scan(T *d_out, INDEX *d_num, V *bit_vector, T *d_in, INDEX n
 // the output array is a array of T.
 // the flag array is a array of V.
 template <typename T, typename V>
-void compaction_cub(T *d_out, INDEX *d_num_selected_out, V *d_flags, T *d_in, INDEX n){
+void compaction_cub(T *d_out, T *d_num_selected_out, V *d_flags, T *d_in, T n){
     //char *d_flags;               // e.g., [1, 0, 0, 1, 0, 1, 1, 0]
     //int  *d_num_selected_out;    // e.g., [ ]
     //cudaMalloc(&d_num_selected_out, sizeof(int));
@@ -101,9 +101,13 @@ void compaction_cub(T *d_out, INDEX *d_num_selected_out, V *d_flags, T *d_in, IN
     //cudaFree(d_temp_storage);
 }
 
-
+// compaction an array of T.
+// using the thrust library.
+// the input array is a array of T.
+// the output array is a array of T.
+// the bit_vector array is a array of V.
 template <typename T, typename B>
-void compaction_scan_thrust(T *d_out, INDEX *d_num, B *d_bit_set, T *d_in, INDEX n){
+void compaction_scan_thrust(T *d_out, T *d_num, B *d_bit_set, T *d_in, T n){
     thrust::device_ptr<B> b_ptr = thrust::device_pointer_cast(d_bit_set);
 	thrust::device_vector<T> q_out(n,0);
 	thrust::exclusive_scan(thrust::device, b_ptr, b_ptr + n, q_out.begin(), 0);
@@ -119,38 +123,90 @@ void compaction_copy_thrust(T *d_in, B *d_bit_set, T *d_out, int n){
 	auto result_end = thrust::copy_if(	thrust::device, p_ptr, p_ptr + n, q_vec.begin(), ff);
 }*/
 
+// compaction from prefix sums.
 template <typename T, typename V>
-__global__ void compact_partial_sums(T *output, INDEX *d_num, T *input, V *partial_sums, T *segmented_partial_sums, V *d_bit_vector, INDEX num_elements) {
-	INDEX offset = threadIdx.x + blockIdx.x * blockDim.x;
-	//const INDEX globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
-	INDEX globalSegmentIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WMMA_TILE_SIZE;
+__global__ void compact_partial_sums(T *output, T *d_num, T *input, V *partial_sums, T *segmented_partial_sums, V *bit_vector, T num_elements) {
+	const int offset = threadIdx.x + blockIdx.x * blockDim.x;
+	//const int globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
+	const int globalSegmentIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WMMA_TILE_SIZE;
 	if (offset < num_elements) {
-        INDEX ind = (INDEX) partial_sums[offset] + segmented_partial_sums[globalSegmentIdx];
-        if ((int)d_bit_vector[offset] == 1){
-            if (ind > 0)
-                output[ind-1] = input[offset];
-        }
+		const int index = (T) partial_sums[offset] + segmented_partial_sums[globalSegmentIdx];
+        if ((int) bit_vector[offset] == 1)
+            output[index-1] = input[offset];
         if (offset == num_elements - 1)
-            *d_num = ind;
+            *d_num = index;
 	}
 }
 
-
+// compaction an array of T.
+// using tensor cores operations and not block segmentation.
+// the input array is a array of T.
+// the output array is a array of T.
+// the bit_vector array is a array of V.
 template <typename T, typename V>
-void compaction_tc_scan(T *d_out, INDEX *d_num, V *d_bit_vector, T *d_in, INDEX n){
-	INDEX num_segments = (n + WMMA_TILE_SIZE - 1)/WMMA_TILE_SIZE + 1; //(n + SEGMENT_SIZE - 1) / SEGMENT_SIZE;
+void compaction_tc_scan(T *d_out, T *d_num, V *d_bit_vector, T *d_in, T n){
+	int num_segments = (n + WMMA_TILE_SIZE - 1)/WMMA_TILE_SIZE + 1; //(n + SEGMENT_SIZE - 1) / SEGMENT_SIZE;
     dim3 blockDim(BLOCK_DIM,1,1);
     dim3 gridDim((n + 8192 - 1)/8192,1,1);
 	T *segmented_partial_sums;
-	V *partial_sums; kernelCallCheck();
-	cudaMalloc(&partial_sums,sizeof(V)*n); kernelCallCheck();
-	cudaMalloc(&segmented_partial_sums,sizeof(T)*num_segments); kernelCallCheck();
-    compute_wmma_segmented_prefixsum_256n_block_ps<T,V><<<gridDim, blockDim>>>(d_bit_vector, partial_sums, segmented_partial_sums, n); kernelCallCheck();
+	V *partial_sums;
+	cudaMalloc(&segmented_partial_sums,sizeof(T)*num_segments);
+	cudaMalloc(&partial_sums,sizeof(V)*n);
+    compute_wmma_segmented_prefixsum_256n_block_ps<T,V><<<gridDim, blockDim>>>(partial_sums, segmented_partial_sums, d_bit_vector, n); kernelCallCheck();
     cudaDeviceSynchronize();
 	scan_parallel_cub<T>(segmented_partial_sums,segmented_partial_sums,num_segments); kernelCallCheck();
 	compact_partial_sums<T,V><<<(n+BSIZE-1)/BSIZE+1, BSIZE>>>(d_out, d_num, d_in, partial_sums, segmented_partial_sums, d_bit_vector, n); kernelCallCheck();
-    cudaDeviceSynchronize();//*/
+    cudaDeviceSynchronize();//*/ 
 	// free memorry
-	cudaFree(segmented_partial_sums);
-	cudaFree(partial_sums);
+	//cudaFree(segmented_partial_sums);
+	//cudaFree(partial_sums);
+}
+
+// compaction an array of T.
+// using tensor cores operations for each tile and cub block segmentation for adding.
+// the input array is a array of T.
+// the output array is a array of T.
+// the bit_vector array is a array of V.
+template <typename T, typename V>
+__global__ void fast_compact_partial_sums(T *output, T *d_num, T *input, V *thread_sums, T *warp_sums, T *block_sums, V *bit_vector, T num_elements) {
+	const int offset = threadIdx.x + blockIdx.x * blockDim.x;
+	//const int globalWarpIdx = (threadIdx.x + blockDim.x * blockIdx.x)/WARPSIZE;
+	const int globalWarpIdx = offset >> 8; ///WMMA_TILE_SIZE;
+    const int globalBlockIdx = offset >> 13; //8192;
+	//if (offset < num_elements) {
+		uint index = (T) thread_sums[offset] + warp_sums[globalWarpIdx] + block_sums[globalBlockIdx];
+        //printf("%i %i %i\n",offset, index, input[offset]);
+        //printf("%i %i %i\n",offset, globalWarpIdx, globalBlockIdx);
+        if (bit_vector[offset])
+            output[index-1] = input[offset];
+        if (offset == num_elements - 1)
+            *d_num = index;
+	//}
+}
+
+// compaction an array of T.
+// using tensor cores operations for each tile and cub block segmentation for adding.
+template <typename T, typename V>
+void compaction_tc_scan_2(T *d_out, T *d_num, V *d_bit_vector, T *d_in, T n){
+    int num_segments = (n + 255) >> 8; //256;
+    int num_block = (n + 8191) >> 13; //8192; //(n + SEGMENT_SIZE - 1) / SEGMENT_SIZE; //(n + 32 - 1)/32 + 1; //
+    dim3 blockDim(BLOCK_DIM,1,1);
+    dim3 gridDim(num_block,1,1);
+    T *sums_block;
+    T *sums_warp;
+    half *sums_thread;
+    T *aux;
+    cudaMalloc(&sums_block,sizeof(T)*num_block);
+    cudaMalloc(&sums_warp,sizeof(T)*(num_segments));
+    cudaMalloc(&sums_thread,sizeof(half)*n);
+    cudaMalloc(&aux,sizeof(T)*num_block);
+    //cudaDeviceSynchronize();
+    compute_wmma_segmented_prefixsum_256n_block_ps_2<T,half><<<gridDim, blockDim>>>(sums_thread, sums_warp, sums_block, d_bit_vector, n); kernelCallCheck();
+    cudaDeviceSynchronize();
+    scan_parallel_cub<T>(aux, sums_block, num_block); kernelCallCheck();
+    //cudaDeviceSynchronize();
+
+    fast_compact_partial_sums<T,V><<<(n+BSIZE-1)/BSIZE, BSIZE>>>(d_out, d_num, d_in, sums_thread, sums_warp, aux, d_bit_vector, n); kernelCallCheck();
+    cudaDeviceSynchronize();//*/
+    //printf("%i %i %i %i %i\n",(n+BSIZE-1)/BSIZE,BSIZE,num_block,num_segments,SEGMENT_SIZE);
 }

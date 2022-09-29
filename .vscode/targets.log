@@ -5,9 +5,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Fri Sep 23 13:16:07 2022
+# Make data base, printed on Thu Sep 29 13:47:34 2022
 
 # Variables
 
@@ -15,6 +14,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 LC_ALL = C
 # environment
 VSCODE_CWD = /home/rcarrasco
+ 
 # default
 MAKE_COMMAND := make
 # environment
@@ -32,6 +32,8 @@ PWD = /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
+MAIL = /var/spool/mail/rcarrasco
+# environment
 OLDPWD = /home/rcarrasco
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
@@ -42,7 +44,7 @@ LANG = C
 # default
 .LOADED := 
 # default
-.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -63,10 +65,16 @@ MAKEFILE_LIST := Makefile
 @F = $(notdir $@)
 # environment
 ZSH = /home/rcarrasco/.oh-my-zsh
+# environment
+XDG_SESSION_TYPE = tty
+# environment
+CUDA_PATH = /opt/cuda
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 *F = $(notdir $*)
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1008/bus
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -78,13 +86,13 @@ SHELL = /bin/sh
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 1
+SHLVL = 2
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/rcarrasco/.vscode-server/bin/74b1f979648cc44d385a2286793c226e611f59e7/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/rcarrasco/.vscode-server/bin/74b1f979648cc44d385a2286793c226e611f59e7/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin
 # default
 MAKEFILES := 
 # environment
@@ -92,9 +100,13 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 161.253.2.244 26909 2237
+SSH_CLIENT = 100.36.54.2 47725 22337
 # automatic
 ?F = $(notdir $?)
+# environment
+CUDA_DEVICE_ORDER = PCI_BUS_ID
+# environment
+MKLROOT = /opt/intel/oneapi/mkl/latest
 # environment
 LS_COLORS = 
 # automatic
@@ -118,15 +130,25 @@ PAGER = less
 # environment
 VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server
 # environment
-_ = /home/rcarrasco/.vscode-server/bin/74b1f979648cc44d385a2286793c226e611f59e7/node
+_ = /usr/bin/make
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-b0b4c646-d64c-46fa-802e-98897776c22f.sock
+MOZ_PLUGIN_PATH = /usr/lib/mozilla/plugins
+# environment
+XDG_RUNTIME_DIR = /run/user/1008
+# environment
+NSYSTEM = /home/rcarrasco/nSystem/nsystem64-beta2
+# environment
+VSCODE_IPC_HOOK_CLI = /run/user/1008/vscode-ipc-476b8e69-b878-4e3c-99f9-8723da265a71.sock
+# environment
+XDG_SESSION_CLASS = user
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/rcarrasco
 # environment
 ELECTRON_RUN_AS_NODE = 1
+# environment
+XDG_SESSION_ID = 494
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -134,11 +156,11 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 SUFFIXES := 
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
 # environment
-SSH_CONNECTION = 161.253.2.244 26909 146.83.216.133 2237
+SSH_CONNECTION = 100.36.54.2 47725 146.83.216.139 22337
 # variable set hash-table stats:
-# Load=63/1024=6%, Rehash=0, Collisions=1/96=1%
+# Load=74/1024=7%, Rehash=0, Collisions=3/107=3%
 
 # Pattern-specific Variable Values
 
@@ -146,7 +168,7 @@ SSH_CONNECTION = 161.253.2.244 26909 146.83.216.133 2237
 
 # Directories
 
-# . (device 54, inode 128873224873): 16 files, no impossibilities.
+# . (device 66306, inode 25403674): 16 files, no impossibilities.
 
 # 16 files, no impossibilities in 1 directories.
 
@@ -159,7 +181,7 @@ SSH_CONNECTION = 161.253.2.244 26909 146.83.216.133 2237
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-10 22:22:04.898327187
+#  Last modified 2022-09-23 16:24:54.445077882
 #  File has been updated.
 #  Successfully updated.
 
@@ -181,12 +203,13 @@ raw:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+ 
 #  recipe to execute (from 'Makefile', line 14):
 	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
 
 filter.o:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-09 02:25:19.313688828
+#  Last modified 2022-09-23 16:24:54.49507788
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 5):
@@ -256,6 +279,6 @@ link: filter.o
 # strcache performance: lookups = 41 / hit rate = 39%
 # hash-table stats:
 # Load=25/8192=0%, Rehash=0, Collisions=0/41=0%
-# Finished Make data base on Fri Sep 23 13:16:07 2022
+# Finished Make data base on Thu Sep 29 13:47:34 2022
 
  
