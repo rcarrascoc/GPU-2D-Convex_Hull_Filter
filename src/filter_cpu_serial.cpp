@@ -24,7 +24,8 @@ template <typename T>
 void findCorner_euclidean(INDEX *corner, T *x, T *y, T xc, T yc, INDEX n){
     T min = std::numeric_limits<float>::max();
     for(INDEX i = 0; i < n; i++){
-        T dist = std::sqrt(std::pow(x[i] - xc, 2) + std::pow(y[i] - yc, 2));
+        T dist = std::pow(x[i] - xc, 2) + std::pow(y[i] - yc, 2);
+        //T dist = std::sqrt(std::pow(x[i] - xc, 2) + std::pow(y[i] - yc, 2));
         if(dist < min){
             min = dist;
             corner[0] = i;

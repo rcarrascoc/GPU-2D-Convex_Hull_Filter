@@ -15,19 +15,25 @@ void findMax(INDEX *max_index, T *arr, INDEX n) {
 
 // find the index of max element in an array using parallelism and reduction
 template <typename T>
-void findMax_parallel(INDEX *max_index, T *arr, INDEX n) {
-    INDEX max_index_local = 0;
-    T max_local = arr[0];
-    #pragma omp parallel for reduction(max:max_local, max_index_local)
-    for (INDEX i = 1; i < n; i++) {
-        if (arr[i] > max_local) {
-            max_local = arr[i];
-            max_index_local = i;
+void findMax_parallel(INDEX* max_index, T* arr, int n) {
+    INDEX localMaxIndex = 0;
+    T localMaxValue = arr[0];
+
+    #pragma omp parallel for
+    for (INDEX i = 1; i < n; ++i) {
+        if (arr[i] > localMaxValue) {
+            #pragma omp critical
+            {
+                if (arr[i] > localMaxValue) {
+                    localMaxValue = arr[i];
+                    localMaxIndex = i;
+                }
+            }
         }
     }
-    *max_index = max_index_local;
-}
 
+    *max_index = localMaxIndex;
+}
 
 // find the index of minimum element in an array using CUDA programming model
 template <typename T>

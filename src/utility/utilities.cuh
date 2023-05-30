@@ -1,5 +1,6 @@
 // include all cuda files
 #include <cfloat>
+#include <omp.h>
 
 #include "utils.cu"
 #include "scan.cu"

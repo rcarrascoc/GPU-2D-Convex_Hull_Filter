@@ -40,6 +40,29 @@ __global__ void findMin_kernel_manhattan(INDEX *out, float *d_dist, float *d_x, 
     }
 }
 
+// find the minimum eulidean distance between a points and a corner of the grid
+//template <typename T>
+__global__ void findMin_kernel_euclidean(INDEX *out, float *d_dist, float *d_x, float *d_y, float xc, float yc, INDEX n){
+    INDEX offset = blockIdx.x * blockDim.x + threadIdx.x;
+    if(offset < n){
+        // compute the euclidean distance
+        float x = d_x[offset];
+        float y = d_y[offset];
+        float dx = x - xc;
+        float dy = y - yc;
+        //float dist = sqrtf(dx*dx + dy*dy);
+        float dist = dx*dx + dy*dy;
+        d_dist[offset] =  dist;
+        INDEX val = offset;
+
+        // find the minimum
+        val = min_index_block<float>(val, d_dist); 
+        //__syncthreads();
+        if(threadIdx.x == 0)
+            min_index_atomic<float>(out, val, d_dist);
+    }
+}
+
 __global__ void gpu_compute_slopes(
         float *m1, float *m2, float *m3, float *m4, float *m1b, float *m2b, float *m3b, float *m4b, float *mh,
         INDEX *ri, INDEX *le, INDEX *lo, INDEX *up, INDEX *c1, INDEX *c2, INDEX *c3, INDEX *c4,

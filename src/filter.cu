@@ -1,5 +1,6 @@
 #include <cuda.h>
 #include <cfloat>
+#include <omp.h>
 
 #include "filter.cuh"
 #include "utility/utilities.cuh"
@@ -11,3 +12,4 @@
 #include "filter_thrust_scan.cu"
 #include "filter_thrust_copy.cu"
 #include "filter_cpu_serial.cpp"
+#include "filter_cpu_parallel.cpp"

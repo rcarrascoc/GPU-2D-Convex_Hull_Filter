@@ -5,7 +5,7 @@
 // define global variables
 #define REAL float // define the real type, really not implemented yet
 //#define INDEX uint // index type
-#define REPEATS 10 // number of repetitions of the benchmark
+#define REPEATS 5 // number of repetitions of the benchmark
 
 // include the header file of the library
 // include filter.cuh
@@ -28,7 +28,7 @@ using namespace std;
 // include benchmark functions
 //#include "src/benchmark.cu"
 
-string arr_alg[8] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if","convex_hull_2","andrew_graham"};
+string arr_alg[10] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if","convex_hull_2","andrew_graham", "cpu_manhattan_parallel", "cpu_euclidean_parallel"};
 string arr_shape[3] = {"normal distribution", "uniform distribution", "circumference distribution"};
 
 // main function
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
             //thisHull->delete_filter();
             delete thisHull;
         }
-    }
+   }
     else if (algorithm == 2){
         filter_gpu_scan *thisHull;
         test3(thisHull, x, y, size, filter_gpu_scan);
@@ -238,7 +238,38 @@ int main(int argc, char *argv[]) {
         }
         points.clear();
     }
-    
+    else if (algorithm == 8) {
+        filter_cpu_parallel *thisHull;
+        for (int i = 0; i < REPEATS; i++){
+	        time->start();
+            test3(thisHull, x, y, size, filter_cpu_parallel);
+            thisHull->cpu_manhattan();
+            convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
+	        time->pause();
+            //std::cout << "size after the filter: " << thisHull->size << std::endl;
+            //thisHull->print_extremes();
+            filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
+            //thisHull->delete_filter();
+            delete thisHull;
+        }
+    }
+    else if (algorithm == 9) {
+        filter_cpu_parallel *thisHull;
+        for (int i = 0; i < REPEATS; i++){
+	        time->start();
+            test3(thisHull, x, y, size, filter_cpu_parallel);
+            thisHull->cpu_euclidean();
+            convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
+	        time->pause();
+            //std::cout << "size after the filter: " << thisHull->size << std::endl;
+            //thisHull->print_extremes();
+            filtered_size = thisHull->size;
+            hull_size = thisHull->sizeHull;
+            //thisHull->delete_filter();
+            delete thisHull;
+        }
+    }
 
     //benchmark(cuda_time_acc, x, y, algorithm, size);
 

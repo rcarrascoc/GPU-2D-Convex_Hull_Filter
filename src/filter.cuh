@@ -138,5 +138,6 @@ public:
 #include "filter_thrust_scan.cuh"
 #include "filter_thrust_copy.cuh"
 #include "filter_cpu_serial.h"
+#include "filter_cpu_parallel.h"
 
 #include "cuda_time_m.cuh"

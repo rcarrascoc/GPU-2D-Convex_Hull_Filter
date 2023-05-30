@@ -1,4 +1,4 @@
-#include "utils.cu"
+//#include "utils.cu"
 
 /*#include <thrust/extrema.h>
 #include <thrust/execution_policy.h>

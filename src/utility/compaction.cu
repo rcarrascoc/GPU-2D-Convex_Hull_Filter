@@ -11,7 +11,7 @@ void compaction_serial(T *output, T *h_num, V *auxiliary, T *input, T size){
     int i, j=0;
     for (i = 0; i < size; i++)
     {
-        if (auxiliary[i] == 1)
+        if ((int)auxiliary[i] == 1)
         {
             output[j] = input[i];
             j++;
@@ -27,14 +27,14 @@ void compaction_serial(T *output, T *h_num, V *auxiliary, T *input, T size){
 // the output is a array of integers.
 // The output array has the same size of the input array.
 template <typename T, typename V>
-void compaction_parallel(T *output, T *h_num, V *auxiliary, T *input, T size){
+void compaction_parallel(T *output, T *h_num, V *auxiliary, T size){
     int i, j=0;
     #pragma omp parallel for
     for (i = 0; i < size; i++)
     {
-        if (auxiliary[i] == 1)
+        if ((int)auxiliary[i] == 1)
         {
-            output[j] = input[i];
+            output[j] = i;
             j++;
         }
     }

@@ -16,18 +16,24 @@ void findMin(INDEX *min_index, T *arr, INDEX n){
 
 // find the index of minimum element in an array using parallelism and reduction
 template <typename T>
-void findMin_parallel_reduction(INDEX *min_index, T *arr, INDEX n){
-    INDEX min = arr[0];
-    INDEX min_index_aux = 0;
-    #pragma omp parallel for reduction(min:min, min_index_aux)
-    for (INDEX i = 1; i < n; i++) {
-        if (arr[i] < min) {
-            min = arr[i];
-            min_index_aux = i;
+void findMin_parallel(INDEX* min_index, T* arr, int n) {
+    INDEX localMinIndex = 0;
+    T localMinValue = arr[0];
+
+    #pragma omp parallel for
+    for (INDEX i = 1; i < n; ++i) {
+        if (arr[i] < localMinValue) {
+            #pragma omp critical
+            {
+                if (arr[i] < localMinValue) {
+                    localMinValue = arr[i];
+                    localMinIndex = i;
+                }
+            }
         }
     }
-    *min_index = min_index_aux;
-    //printf("\nMinimum element is %f at index %i", (float)min, (int)*min_index);
+
+    *min_index = localMinIndex;
 }
 
 // find the index of minimum element in an array using CUDA programming model

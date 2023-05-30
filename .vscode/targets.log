@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Sep 29 13:47:34 2022
+# Make data base, printed on Tue May 30 16:50:44 2023
 
 # Variables
 
@@ -14,7 +14,6 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 LC_ALL = C
 # environment
 VSCODE_CWD = /home/rcarrasco
- 
 # default
 MAKE_COMMAND := make
 # environment
@@ -32,8 +31,6 @@ PWD = /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-MAIL = /var/spool/mail/rcarrasco
-# environment
 OLDPWD = /home/rcarrasco
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
@@ -44,7 +41,7 @@ LANG = C
 # default
 .LOADED := 
 # default
-.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # makefile
 MAKEFLAGS = pqrR
 # makefile
@@ -67,18 +64,16 @@ MAKEFILE_LIST := Makefile
 ZSH = /home/rcarrasco/.oh-my-zsh
 # environment
 XDG_SESSION_TYPE = tty
-# environment
-CUDA_PATH = /opt/cuda
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 *F = $(notdir $*)
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1008/bus
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/10001/bus
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
-VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
+VSCODE_NLS_CONFIG = {"locale":"en","osLocale":"en","availableLanguages":{}}
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # makefile
@@ -86,13 +81,13 @@ SHELL = /bin/sh
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 2
+SHLVL = 0
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/rcarrasco/.vscode-server/bin/74b1f979648cc44d385a2286793c226e611f59e7/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin
+PATH = /home/rcarrasco/.vscode-server-insiders/bin/2dfb838f494f035099e999f0cd0eff5f1f488a30/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # default
 MAKEFILES := 
 # environment
@@ -100,13 +95,9 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 100.36.54.2 47725 22337
+SSH_CLIENT = 201.214.231.115 49539 2237
 # automatic
 ?F = $(notdir $?)
-# environment
-CUDA_DEVICE_ORDER = PCI_BUS_ID
-# environment
-MKLROOT = /opt/intel/oneapi/mkl/latest
 # environment
 LS_COLORS = 
 # automatic
@@ -116,7 +107,7 @@ LESS = -R
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
-BROWSER = /home/rcarrasco/.vscode-server/bin/74b1f979648cc44d385a2286793c226e611f59e7/bin/helpers/browser.sh
+BROWSER = /home/rcarrasco/.vscode-server-insiders/bin/2dfb838f494f035099e999f0cd0eff5f1f488a30/bin/helpers/browser.sh
 # environment
 LOGNAME = rcarrasco
 # makefile
@@ -128,17 +119,13 @@ MAKE_VERSION := 4.3
 # environment
 PAGER = less
 # environment
-VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server
+VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server-insiders
 # environment
-_ = /usr/bin/make
+_ = /home/rcarrasco/.vscode-server-insiders/bin/2dfb838f494f035099e999f0cd0eff5f1f488a30/node
 # environment
-MOZ_PLUGIN_PATH = /usr/lib/mozilla/plugins
+XDG_RUNTIME_DIR = /run/user/10001
 # environment
-XDG_RUNTIME_DIR = /run/user/1008
-# environment
-NSYSTEM = /home/rcarrasco/nSystem/nsystem64-beta2
-# environment
-VSCODE_IPC_HOOK_CLI = /run/user/1008/vscode-ipc-476b8e69-b878-4e3c-99f9-8723da265a71.sock
+VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-48f93bd6-c1ef-4bd7-a1c4-0bf86c55196f.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -148,7 +135,7 @@ HOME = /home/rcarrasco
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 494
+XDG_SESSION_ID = 3078
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -156,11 +143,11 @@ XDG_SESSION_ID = 494
 # default
 SUFFIXES := 
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 100.36.54.2 47725 146.83.216.139 22337
+SSH_CONNECTION = 201.214.231.115 49539 146.83.216.133 2237
 # variable set hash-table stats:
-# Load=74/1024=7%, Rehash=0, Collisions=3/107=3%
+# Load=68/1024=7%, Rehash=0, Collisions=1/101=1%
 
 # Pattern-specific Variable Values
 
@@ -168,9 +155,9 @@ SSH_CONNECTION = 100.36.54.2 47725 146.83.216.139 22337
 
 # Directories
 
-# . (device 66306, inode 25403674): 16 files, no impossibilities.
+# . (device 57, inode 128873224873): 15 files, no impossibilities.
 
-# 16 files, no impossibilities in 1 directories.
+# 15 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -181,39 +168,39 @@ SSH_CONNECTION = 100.36.54.2 47725 146.83.216.139 22337
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-09-23 16:24:54.445077882
+#  Last modified 2023-05-28 02:56:05.913898599
+ 
 #  File has been updated.
 #  Successfully updated.
 
-alt: link
+alt: clean link
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 11):
-	nvcc -O3 -o prog3 main.cpp filter.a -I/home/linuxbrew/.linuxbrew/opt/cgal/include/ -I/home/linuxbrew/.linuxbrew/opt/boost/include
+	nvcc -O3 -Xcompiler -fopenmp -o prog4 main.cpp filter.a -I/home/linuxbrew/.linuxbrew/opt/cgal/include/ -I/home/linuxbrew/.linuxbrew/opt/boost/include 
 
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 17):
-	rm -f prog filter.o filter.a
+#  recipe to execute (from 'Makefile', line 16):
+	rm -f prog4 filter.o filter.a
 
 raw:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
- 
-#  recipe to execute (from 'Makefile', line 14):
+#  recipe to execute (from 'Makefile', line 13):
 	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
 
 filter.o:
 #  Implicit rule search has not been done.
-#  Last modified 2022-09-23 16:24:54.49507788
+#  Last modified 2023-05-28 02:59:58.635274918
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 5):
-	nvcc -O3 -arch sm_70 --extended-lambda -c src/filter.cu
+	nvcc -O3 -Xcompiler -fopenmp -arch sm_70 --extended-lambda -c src/filter.cu
 
 # Not a target:
 .DEFAULT:
@@ -230,7 +217,7 @@ all: link
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 #  recipe to execute (from 'Makefile', line 2):
-	nvcc -O3 -o prog3 main.cpp -lgmp filter.a
+	nvcc -O3 -o prog4 main.cpp -lgmp filter.a
 
 link: filter.o
 #  Implicit rule search has not been done.
@@ -266,19 +253,19 @@ link: filter.o
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=9/1024=1%, Rehash=0, Collisions=0/25=0%
+# Load=9/1024=1%, Rehash=0, Collisions=0/27=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 25 / storage = 177 B / avg = 7 B
-# current buf: size = 8162 B / used = 177 B / count = 25 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 24 / storage = 180 B / avg = 7 B
+# current buf: size = 8162 B / used = 180 B / count = 24 / avg = 7 B
 
-# strcache performance: lookups = 41 / hit rate = 39%
+# strcache performance: lookups = 41 / hit rate = 41%
 # hash-table stats:
-# Load=25/8192=0%, Rehash=0, Collisions=0/41=0%
-# Finished Make data base on Thu Sep 29 13:47:34 2022
+# Load=24/8192=0%, Rehash=0, Collisions=0/41=0%
+# Finished Make data base on Tue May 30 16:50:44 2023
 
  

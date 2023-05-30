@@ -2,7 +2,7 @@ reset
 
 name  = ARG1
 
-out     = 'plots/'.name.'_dist.eps'
+out     = 'plots/ch_prob_'.name.'_speed.eps'
 #mytitle = "Patagon (only filter)\nCircunference"
 mytitle = "Filters using a ".name." distribution"
 
@@ -16,13 +16,14 @@ set ylabel 'Speedup' rotate by 90 offset 1
 #set log y
 
 
-set xlabel '# Points'
+set xlabel 'p'
 set font "Courier, 30"
 set pointsize 1.0
 #set ytics 0, 0.5, 25
 #set xtics format "%s"
-#set yrange [0:35]
-set yrange [0:28]
+set xrange [0:0.25]
+set yrange [0:40]
+#set yrange [0:45]
 
 set style line 1 lt 1 lc rgb 'forest-green' dt 1    pt 5    pi -6   lw 2 # green   
 set style line 2 lt 2 lc rgb 'black'        dt 2    pt 2    pi -6   lw 2 # orange
@@ -37,10 +38,10 @@ set key Left top left reverse samplen 3.0 font "Courier,22" spacing 1
 #set key Left bot right reverse samplen 3.0 font "Courier,18" spacing 1 
 
 
-data = 'data/'.name.'_dist.dat'
+data = 'data/ch_prob_'.name.'.dat'
 
-plot    data              using 1:($7/$2)       title "[GPU] cpu-manhattan"     with lp ls 1, \
-        data              using 1:($7/$12)      title "[GPU] proposed-filter"          with lp ls 2, \
-        data              using 1:($7/$17)      title "[GPU] cub-flagged"       with lp ls 3, \
-        data              using 1:($7/$22)      title "[GPU] thrust-scan"       with lp ls 4, \
-        data              using 1:($7/$27)      title "[GPU] thrust-copy"       with lp ls 5
+plot    data              using 1:($2/$6)       title "[CPU] CGAL:ch-graham-andrew"        with lp ls 7, \
+        data              using 1:($2/$18)      title "[GPU] proposed-filter"                     with lp ls 2, \
+        data              using 1:($2/$22)      title "[GPU] cub-flagged"                  with lp ls 3, \
+        data              using 1:($2/$26)      title "[GPU] thrust-scan"                  with lp ls 4, \
+        data              using 1:($2/$30)      title "[GPU] thrust-copy"                  with lp ls 5
