@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jun  4 23:51:05 2023
+# Make data base, printed on Wed Jun  7 16:53:37 2023
 
 # Variables
 
@@ -81,13 +81,13 @@ SHELL = /bin/sh
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 1
+SHLVL = 0
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/rcarrasco/.vscode-server/bin/b3e4e68a0bc097f0ae7907b217c1119af9e03435/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/rcarrasco/.vscode-server-insiders/bin/666396ddec7708df2b986dcc178863faaa67c14d/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # default
 MAKEFILES := 
 # environment
@@ -95,7 +95,7 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 201.214.231.115 61111 2237
+SSH_CLIENT = 201.214.231.115 64514 2237
 # automatic
 ?F = $(notdir $?)
 # environment
@@ -107,7 +107,7 @@ LESS = -R
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
-BROWSER = /home/rcarrasco/.vscode-server/bin/b3e4e68a0bc097f0ae7907b217c1119af9e03435/bin/helpers/browser.sh
+BROWSER = /home/rcarrasco/.vscode-server-insiders/bin/666396ddec7708df2b986dcc178863faaa67c14d/bin/helpers/browser.sh
 # environment
 LOGNAME = rcarrasco
 # makefile
@@ -119,13 +119,13 @@ MAKE_VERSION := 4.3
 # environment
 PAGER = less
 # environment
-VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server
+VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server-insiders
 # environment
-_ = /home/rcarrasco/.vscode-server/bin/b3e4e68a0bc097f0ae7907b217c1119af9e03435/node
+_ = /home/rcarrasco/.vscode-server-insiders/bin/666396ddec7708df2b986dcc178863faaa67c14d/node
 # environment
 XDG_RUNTIME_DIR = /run/user/10001
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-2839df5f-7bf0-4ca5-919c-5f4d987da76e.sock
+VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-098cad02-97ef-4dea-b32d-c58b187aaadf.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -135,7 +135,7 @@ HOME = /home/rcarrasco
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 3363
+XDG_SESSION_ID = 3528
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -145,7 +145,7 @@ SUFFIXES :=
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 201.214.231.115 61111 146.83.216.133 2237
+SSH_CONNECTION = 201.214.231.115 64514 146.83.216.133 2237
 # variable set hash-table stats:
 # Load=68/1024=7%, Rehash=0, Collisions=1/101=1%
 
@@ -176,7 +176,6 @@ alt: clean link
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
- 
 #  recipe to execute (from 'Makefile', line 11):
 	nvcc -O3 -Xcompiler -fopenmp -o prog4 main.cpp filter.a -I/home/linuxbrew/.linuxbrew/opt/cgal/include/ -I/home/linuxbrew/.linuxbrew/opt/boost/include 
 
@@ -196,7 +195,7 @@ raw:
 
 filter.o:
 #  Implicit rule search has not been done.
-#  Last modified 2023-05-28 02:59:58.635274918
+#  Last modified 2023-06-05 02:13:31.327269074
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 5):
@@ -266,6 +265,6 @@ link: filter.o
 # strcache performance: lookups = 41 / hit rate = 41%
 # hash-table stats:
 # Load=24/8192=0%, Rehash=0, Collisions=0/41=0%
-# Finished Make data base on Sun Jun  4 23:51:05 2023
+# Finished Make data base on Wed Jun  7 16:53:37 2023
 
  

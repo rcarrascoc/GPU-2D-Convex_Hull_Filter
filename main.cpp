@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
             time->start();
             test3(thisHull, x, y, size, filter_cpu_serial);
             thisHull->cpu_euclidean();
-            convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
@@ -244,7 +244,7 @@ int main(int argc, char *argv[]) {
 	        time->start();
             test3(thisHull, x, y, size, filter_cpu_parallel);
             thisHull->cpu_manhattan();
-            convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
@@ -260,7 +260,7 @@ int main(int argc, char *argv[]) {
 	        time->start();
             test3(thisHull, x, y, size, filter_cpu_parallel);
             thisHull->cpu_euclidean();
-            convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
