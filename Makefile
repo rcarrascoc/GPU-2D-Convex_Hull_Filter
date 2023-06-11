@@ -8,9 +8,9 @@ link: filter.o
 	ar rc filter.a filter.o
 
 alt: clean link
-	nvcc -O3 -Xcompiler -fopenmp -o prog4 main.cpp filter.a -I/home/linuxbrew/.linuxbrew/opt/cgal/include/ -I/home/linuxbrew/.linuxbrew/opt/boost/include 
+	nvcc -O3 -Xcompiler -fopenmp -o prog3 main.cpp filter.a -I/home/linuxbrew/.linuxbrew/opt/cgal/include/ -I/home/linuxbrew/.linuxbrew/opt/boost/include 
 raw: 
 	nvcc -O3 -arch sm_70 --extended-lambda -o prog main.cu -lgmp
 
 clean:
-	rm -f prog4 filter.o filter.a
+	rm -f prog3 filter.o filter.a

@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 	        time->start();
             test3(thisHull, x, y, size, filter_cpu_serial);
             thisHull->cpu_manhattan();
-            convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test3(thisHull, x, y, size, filter_gpu_scan);
-            convexHull_2<filter_gpu_scan,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_gpu_scan,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test3(thisHull, x, y, size, filter_cub_flagged);
-            convexHull_2<filter_cub_flagged,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_cub_flagged,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test3(thisHull, x, y, size, filter_thrust_scan);
-            convexHull_2<filter_thrust_scan,INDEX>(thisHull, x, y, size);
+            //convexHull_2<filter_thrust_scan,INDEX>(thisHull, x, y, size);
 	        time->pause();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
@@ -195,7 +195,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test4(thisHull, points, size, filter_thrust_copy);
-            convexHull_2<filter_thrust_copy,INDEX>(thisHull, points, size);
+            //convexHull_2<filter_thrust_copy,INDEX>(thisHull, points, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();

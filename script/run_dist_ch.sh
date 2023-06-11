@@ -10,7 +10,7 @@ TSTERR=0
 for N in `seq ${STARTN} ${DN} ${ENDN}`;
 do
     echo -n "${N}  " >> ${OUTFILE}
-    for ALG in 8;
+    for ALG in 6 7 0 1 2 3 4 5;
     do
         #echo "${BINARY} $DEV $N ${ALG}"
         M=0; S=0; x=0; y=0; z=0; v=0; w1=0; x1=0; y1=0; z1=0; v1=0; x2=0; w2=0; y2=0; z2=0; v2=0; Mz=0;
