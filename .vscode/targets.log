@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jun 11 15:08:00 2023
+# Make data base, printed on Wed Jun 14 15:21:06 2023
 
 # Variables
 
@@ -95,7 +95,7 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 201.214.231.115 60378 2237
+SSH_CLIENT = 201.214.231.115 54456 2237
 # automatic
 ?F = $(notdir $?)
 # environment
@@ -125,7 +125,7 @@ _ = /home/rcarrasco/.vscode-server-insiders/bin/aee52551e25d98391f9064996196cd83
 # environment
 XDG_RUNTIME_DIR = /run/user/10001
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-2393fd28-2b0e-41b7-936b-36b0b4a678b3.sock
+VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-e3aeebed-b748-4c1b-aa05-46de27518a67.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -135,7 +135,7 @@ HOME = /home/rcarrasco
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 3891
+XDG_SESSION_ID = 4155
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -145,7 +145,7 @@ SUFFIXES :=
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 201.214.231.115 60378 146.83.216.133 2237
+SSH_CONNECTION = 201.214.231.115 54456 146.83.216.133 2237
 # variable set hash-table stats:
 # Load=68/1024=7%, Rehash=0, Collisions=1/101=1%
 
@@ -265,6 +265,6 @@ link: filter.o
 # strcache performance: lookups = 42 / hit rate = 40%
 # hash-table stats:
 # Load=25/8192=0%, Rehash=0, Collisions=0/42=0%
-# Finished Make data base on Sun Jun 11 15:08:00 2023
+# Finished Make data base on Wed Jun 14 15:21:06 2023
 
  
