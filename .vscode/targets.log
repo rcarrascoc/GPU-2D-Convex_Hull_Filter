@@ -6,14 +6,20 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jun 14 15:21:06 2023
+# Make data base, printed on Fri Jun 30 01:49:17 2023
 
 # Variables
 
 # environment
 LC_ALL = C
 # environment
-VSCODE_CWD = /home/rcarrasco
+PULSE_SERVER = unix:/mnt/wslg/PulseServer
+# environment
+HOMEBREW_PREFIX = /home/linuxbrew/.linuxbrew
+# environment
+WSLENV = VSCODE_WSL_EXT_LOCATION/up
+# environment
+VSCODE_CWD = /mnt/c/Users/rcarrasco/AppData/Local/Programs/Microsoft VS Code Insiders
 # default
 MAKE_COMMAND := make
 # environment
@@ -25,13 +31,13 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
 .VARIABLES := 
 # environment
-PWD = /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
+PWD = /home/rcarrasco/GPU-2D-Convex_Hull_Filter
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-OLDPWD = /home/rcarrasco
+OLDPWD = /mnt/c/Users/rcarrasco/AppData/Local/Programs/Microsoft VS Code Insiders
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # automatic
@@ -40,20 +46,28 @@ OLDPWD = /home/rcarrasco
 LANG = C
 # default
 .LOADED := 
+# environment
+HOMEBREW_REPOSITORY = /home/linuxbrew/.linuxbrew/Homebrew
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # makefile
 MAKEFLAGS = pqrR
 # makefile
-CURDIR := /home/rcarrasco/project/GPU-2D-Convex_Hull_Filter
+CURDIR := /home/rcarrasco/GPU-2D-Convex_Hull_Filter
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
 MFLAGS = -pqrR
 # default
 .SHELLFLAGS := -c
+# environment
+WSL2_GUI_APPS_ENABLED = 1
+# environment
+WAYLAND_DISPLAY = wayland-0
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # makefile (from 'Makefile', line 1)
@@ -62,20 +76,20 @@ MAKEFILE_LIST := Makefile
 @F = $(notdir $@)
 # environment
 ZSH = /home/rcarrasco/.oh-my-zsh
-# environment
-XDG_SESSION_TYPE = tty
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 *F = $(notdir $*)
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/10001/bus
+MANPATH = /home/linuxbrew/.linuxbrew/share/man::
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","osLocale":"en","availableLanguages":{}}
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+INFOPATH = /home/linuxbrew/.linuxbrew/share/info:
 # makefile
 SHELL = /bin/sh
 # default
@@ -87,47 +101,49 @@ MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/rcarrasco/.vscode-server-insiders/bin/aee52551e25d98391f9064996196cd83a9fc8669/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/rcarrasco/.vscode-server-insiders/bin/4649b5333370139d161e7b5d4f78ca13741efa35/bin/remote-cli:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Razer Chroma SDK/bin:/mnt/c/Program Files/Razer Chroma SDK/bin:/mnt/c/Program Files (x86)/Razer/ChromaBroadcast/bin:/mnt/c/Program Files/Razer/ChromaBroadcast/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Windows/system32/config/systemprofile/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/Calibre2/:/mnt/c/Program Files/dotnet/:/mnt/c/Users/rcarrasco/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/rcarrasco/AppData/Local/Programs/Microsoft VS Code Insiders/bin:/mnt/c/Users/rcarrasco/AppData/Local/Programs/Microsoft VS Code/bin:/usr/local/cuda/bin
 # default
 MAKEFILES := 
-# environment
-MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
-# environment
-SSH_CLIENT = 201.214.231.115 54456 2237
 # automatic
 ?F = $(notdir $?)
 # environment
-LS_COLORS = 
+NAME = DESKTOP-P3B37JK
+# environment
+HOSTTYPE = x86_64
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
 # automatic
 +F = $(notdir $+)
 # environment
 LESS = -R
+# environment
+WSL_INTEROP = /run/WSL/12_interop
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
-BROWSER = /home/rcarrasco/.vscode-server-insiders/bin/aee52551e25d98391f9064996196cd83a9fc8669/bin/helpers/browser.sh
-# environment
 LOGNAME = rcarrasco
+# environment
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/rcarrasco/.vscode-insiders/extensions/ms-vscode-remote.remote-wsl-0.80.2
 # makefile
 .DEFAULT_GOAL := all
+# environment
+DISPLAY = :0
 # environment
 USER = rcarrasco
 # default
 MAKE_VERSION := 4.3
 # environment
+HOMEBREW_CELLAR = /home/linuxbrew/.linuxbrew/Cellar
+# environment
 PAGER = less
 # environment
-VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server-insiders
+_ = /home/rcarrasco/.vscode-server-insiders/bin/4649b5333370139d161e7b5d4f78ca13741efa35/node
 # environment
-_ = /home/rcarrasco/.vscode-server-insiders/bin/aee52551e25d98391f9064996196cd83a9fc8669/node
+XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
-XDG_RUNTIME_DIR = /run/user/10001
-# environment
-VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-e3aeebed-b748-4c1b-aa05-46de27518a67.sock
-# environment
-XDG_SESSION_CLASS = user
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-a2a9c6c7-6f73-4eac-8afd-4666b1ddc377.sock
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -135,19 +151,21 @@ HOME = /home/rcarrasco
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 4155
+TERM = xterm-256color
 # default
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
 # default
 SUFFIXES := 
+# environment
+WSL_DISTRO_NAME = Ubuntu
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 201.214.231.115 54456 146.83.216.133 2237
+CUDA_HOME = /usr/local/cuda
 # variable set hash-table stats:
-# Load=68/1024=7%, Rehash=0, Collisions=1/101=1%
+# Load=77/1024=8%, Rehash=0, Collisions=8/110=7%
 
 # Pattern-specific Variable Values
 
@@ -155,7 +173,7 @@ SSH_CONNECTION = 201.214.231.115 54456 146.83.216.133 2237
 
 # Directories
 
-# . (device 57, inode 128873224873): 16 files, no impossibilities.
+# . (device 2080, inode 176756): 16 files, no impossibilities.
 
 # 16 files, no impossibilities in 1 directories.
 
@@ -168,7 +186,7 @@ SSH_CONNECTION = 201.214.231.115 54456 146.83.216.133 2237
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2023-06-08 17:37:55.944438828
+#  Last modified 2023-06-11 15:12:47.155360679
 #  File has been updated.
 #  Successfully updated.
 
@@ -195,7 +213,7 @@ raw:
 
 filter.o:
 #  Implicit rule search has not been done.
-#  Last modified 2023-06-08 17:38:27.798765648
+#  Last modified 2023-06-11 15:12:47.185360676
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 5):
@@ -260,11 +278,12 @@ link: filter.o
 # No general ('VPATH' variable) search path.
 
 # strcache buffers: 1 (0) / strings = 25 / storage = 186 B / avg = 7 B
+ 
 # current buf: size = 8162 B / used = 186 B / count = 25 / avg = 7 B
 
 # strcache performance: lookups = 42 / hit rate = 40%
 # hash-table stats:
 # Load=25/8192=0%, Rehash=0, Collisions=0/42=0%
-# Finished Make data base on Wed Jun 14 15:21:06 2023
+# Finished Make data base on Fri Jun 30 01:49:17 2023
 
  
