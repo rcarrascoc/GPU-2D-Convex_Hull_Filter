@@ -35,10 +35,10 @@ void save_off_file(filter_cpu_serial *filter, std::string name){
     file_point << filter->n << " 0 0\n";
     file_candidate << filter->sizeHull << " 0 0\n";
     for(int i=0; i<filter->n; i++){
-        file_point << filter->x[i] << " " << filter->y[i] << " " << filter->z[i] << "\n";
+        file_point << filter->x[i] << " " << filter->y[i] << "\n";
     }
     for(int i=0; i<filter->sizeHull; i++){
-        file_candidate << filter->x[filter->h_q[i]] << " " << filter->y[filter->h_q[i]] << " " << filter->z[filter->h_q[i]] << "\n";
+        file_candidate << filter->x[filter->h_q[i]] << " " << filter->y[filter->h_q[i]] << "\n";
     }
     file_point.close();
     file_candidate.close();
