@@ -24,6 +24,27 @@ using namespace std;
 #define test3(ffthis, ffx, ffy, ffn, ffalg) ffthis = new ffalg(ffx,ffy,ffn)
 #define test4(ffthis, ffp, ffn, ffalg) ffthis = new ffalg(ffp,ffn)
 
+// function to save in a file all the points and candidate to hull in diffrent .off files, name_point.off and name_candidate.off respectively
+void save_off_file(filter_cpu_serial *filter, std::string name){
+    std::ofstream file_point;
+    std::ofstream file_candidate;
+    file_point.open(name+"_point.off");
+    file_candidate.open(name+"_candidate.off");
+    file_point << "OFF\n";
+    file_candidate << "OFF\n";
+    file_point << filter->n << " 0 0\n";
+    file_candidate << filter->sizeHull << " 0 0\n";
+    for(int i=0; i<filter->n; i++){
+        file_point << filter->x[i] << " " << filter->y[i] << " " << filter->z[i] << "\n";
+    }
+    for(int i=0; i<filter->sizeHull; i++){
+        file_candidate << filter->x[filter->h_q[i]] << " " << filter->y[filter->h_q[i]] << " " << filter->z[filter->h_q[i]] << "\n";
+    }
+    file_point.close();
+    file_candidate.close();
+}
+
+
 
 // include benchmark functions
 //#include "src/benchmark.cu"
