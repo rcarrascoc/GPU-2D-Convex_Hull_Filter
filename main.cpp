@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
             //convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
-            thisHull->save_off_file(thisHull, "cpu_manhattan");
+            save_off_file(thisHull, "cpu_manhattan");
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
             //thisHull->delete_filter();
