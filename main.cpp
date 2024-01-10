@@ -17,6 +17,7 @@
 // include cgal functions
 #include "src/cgal_convex_hull.cpp"
 
+
 using namespace std;
 
 #define test(ffx, ffy, ffn, ffalg) ffalg(ffx,ffy,ffn)
@@ -156,12 +157,13 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test3(thisHull, x, y, size, filter_gpu_scan);
-            //convexHull_2<filter_gpu_scan,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_gpu_scan,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("gpu_scan.json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -174,12 +176,13 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test3(thisHull, x, y, size, filter_cub_flagged);
-            //convexHull_2<filter_cub_flagged,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_cub_flagged,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("cub_flagger.json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -192,12 +195,13 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test3(thisHull, x, y, size, filter_thrust_scan);
-            //convexHull_2<filter_thrust_scan,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_thrust_scan,INDEX>(thisHull, x, y, size);
 	        time->pause();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
+            if (i == REPEATS-1) thisHull->save_timer("thrust_scan.json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -216,12 +220,13 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < REPEATS; i++){
             time->start();
             test4(thisHull, points, size, filter_thrust_copy);
-            //convexHull_2<filter_thrust_copy,INDEX>(thisHull, points, size);
+            convexHull_2<filter_thrust_copy,INDEX>(thisHull, points, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("thrust_copy.json");
             thisHull->delete_filter();
             delete thisHull;
         }

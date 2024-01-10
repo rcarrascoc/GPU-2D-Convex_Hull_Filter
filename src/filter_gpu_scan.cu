@@ -11,13 +11,36 @@ filter_gpu_scan::filter_gpu_scan(float *x_in, float *y_in, INDEX size){
     gpu_scan();
     //f_gpu_scan();
 
+    // save the time for deleting
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     // cuda copy d_q to host
     h_q = new INDEX[size];
     cudaMemcpy(h_q, d_q, sizeof(INDEX) * size, cudaMemcpyDeviceToHost); kernelCallCheck();
     //print_extremes();
+
+    // save the time for copying to host
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_copy2host = (milliseconds - t_copy2host) / step + t_copy2host;
 }
 
 void filter_gpu_scan::gpu_scan(){
+    // GET CUDA TIME
+    cudaDeviceSynchronize();
+    step++;
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     // cuda malloc for x and y arrays
     cudaMalloc(&d_x, sizeof(float) * n);
     cudaMalloc(&d_y, sizeof(float) * n);
@@ -30,6 +53,19 @@ void filter_gpu_scan::gpu_scan(){
     cudaMalloc(&d_le, sizeof(INDEX));
     cudaMalloc(&d_lo, sizeof(INDEX));
     cudaMalloc(&d_up, sizeof(INDEX));
+
+    // save the time for copying to device
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_copy2device = (milliseconds - t_copy2device) / step + t_copy2device;
+
+    // get the time for finding axis extreme points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     // find axis extreme points
     findMax_kernel<float>(d_ri, d_x, n); kernelCallCheck();
@@ -47,6 +83,18 @@ void filter_gpu_scan::gpu_scan(){
     xle = x[le]; yle = y[le];
     xlo = x[lo]; ylo = y[lo];
     xup = x[up]; yup = y[up];
+
+    // save the time for finding axis extreme points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_extremes = (milliseconds - t_find_extremes) / step + t_find_extremes;
+
+    // get the time for finding corner points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
 
     cudaMalloc(&d_c1, sizeof(INDEX));
     cudaMalloc(&d_c2, sizeof(INDEX));
@@ -85,6 +133,19 @@ void filter_gpu_scan::gpu_scan(){
     xc2 = x[c2]; yc2 = y[c2];
     xc3 = x[c3]; yc3 = y[c3];
     xc4 = x[c4]; yc4 = y[c4];
+
+
+    // save the time for finding corner points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_corners = (milliseconds - t_find_corners) / step + t_find_corners;
+
+    // get the time for finding points in q
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
     
     computeSlopes();
 
@@ -113,17 +174,35 @@ void filter_gpu_scan::gpu_scan(){
         //printf("%i %i\n", i, (int) h_vec_inQ[i]);
     } //*/
 
+    // save the time for finding points in q
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_points_in_Q = (milliseconds - t_find_points_in_Q) / step + t_find_points_in_Q;
+
+    // get the time for compacting 
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     compaction_tc_scan<INDEX,half>(d_q, d_size, d_vec_inQ, d_qa, n);
     //cudaDeviceSynchronize();
-
     cudaMemcpy(&size, d_size, sizeof(INDEX), cudaMemcpyDeviceToHost);
-    
+
+    // save the time for compacting
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    cudaEventElapsedTime(&milliseconds, start, stop);    
+    t_compaction = (milliseconds - t_compaction) / step + t_compaction;
+
     /*// copy d_qa to host and print all element
     INDEX *h_qa = new INDEX[n];
     cudaMemcpy(h_qa, d_q, sizeof(INDEX) * n, cudaMemcpyDeviceToHost); kernelCallCheck();
     for (int i = 0; i < size; i++){
         printf("%i %i\n", i,(int) h_qa[i]);
     }*/
+
 }
 
 
@@ -219,6 +298,14 @@ void filter_gpu_scan::copy_to_host(){
 
 
 void filter_gpu_scan::delete_filter(){
+    // get the time for deleting
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     // delete host variables
     //delete[] x;
     //delete[] y;
@@ -255,6 +342,13 @@ void filter_gpu_scan::delete_filter(){
 
     cudaDeviceSynchronize();
     kernelCallCheck();
+
+    // save the time for deleting
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_delete = (milliseconds - t_delete) / step;
 }
 
 // print indices and cooordinates of all axis extreme points, corners, and slopes

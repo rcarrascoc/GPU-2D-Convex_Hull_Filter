@@ -1,5 +1,9 @@
 #define INDEX uint // index type
 
+// include string and ofstream libraries for writing to file
+#include <string>
+#include <fstream>
+
 class filter {
 public:
     // host variables
@@ -26,6 +30,43 @@ public:
     float *d_x;
     float *d_y;
     INDEX *d_q, *d_qa, *d_size;
+
+    // timer stats
+    float t_copy2device = 0;
+    float t_find_extremes = 0;
+    float t_find_corners = 0;
+    float t_find_points_in_Q = 0;
+    float t_compaction = 0;
+    float t_copy2host = 0;
+    float t_delete = 0;
+    float t_preparation = 0;
+    float t_cgal_convex_hull = 0;
+
+    int step = 0;
+    unsigned long seed = 0;
+
+    // save timer in a json file
+    void save_timer(std::string filename){
+        std::ofstream file;
+        file.open(filename);
+        file << "{\n";
+        file << "\"n\": " << n << ",\n";
+        file << "\"size\": " << size << ",\n";
+        file << "\"hull\": " << sizeHull << ",\n";
+        file << "\"seed\": " << seed << ",\n";
+        file << "\"copy2device\": " << t_copy2device << ",\n";
+        file << "\"find_extremes\": " << t_find_extremes << ",\n";
+        file << "\"find_corners\": " << t_find_corners << ",\n";
+        file << "\"find_points_in_Q\": " << t_find_points_in_Q << ",\n";
+        file << "\"compaction\": " << t_compaction << ",\n";
+        file << "\"copy2host\": " << t_copy2host << ",\n";
+        file << "\"delete\": " << t_delete << ",\n";
+        file << "\"preparation\": " << t_preparation << ",\n";
+        file << "\"cgal_convex_hull\": " << t_cgal_convex_hull << ",\n";
+        file << "\"total\": " << t_find_corners + t_find_extremes + t_find_points_in_Q + t_compaction + t_copy2host + t_delete + t_cgal_convex_hull << "\n";
+        file << "}";
+        file.close();
+    }
 
     // ouptut variables
     INDEX size;    
@@ -132,6 +173,10 @@ public:
         printf("aca estoy");
     } //*/
 };
+
+void generate_random_normal_points_omp(int n, float x, float y);
+void generate_random_uniform_points_omp(int n, float x, float y);
+void generate_random_circumference_points_omp(int n, float x, float y, double prob);
 
 #include "filter_gpu_scan.cuh"
 #include "filter_cub_flagged.cuh"

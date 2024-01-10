@@ -6,12 +6,35 @@ filter_thrust_scan::filter_thrust_scan(float *x_in, float *y_in, INDEX size){
     n = size;
     thrust_scan();
 
+    // save the time for deleting
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     h_q = new INDEX[size];
     cudaMemcpy(h_q, d_q, sizeof(INDEX) * size, cudaMemcpyDeviceToHost); kernelCallCheck();
     //print_extremes();
+
+    // save the time for copying to host
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_copy2host = (milliseconds - t_copy2host) / step + t_copy2host;
 }
 
 void filter_thrust_scan::thrust_scan(){
+    // GET CUDA TIME
+    cudaDeviceSynchronize();
+    step++;
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     // cuda malloc for x and y arrays
     cudaMalloc(&d_x, sizeof(float) * n);
     cudaMalloc(&d_y, sizeof(float) * n);
@@ -23,6 +46,20 @@ void filter_thrust_scan::thrust_scan(){
     // cuda malloc for d_min and d_max
     thrust::device_ptr<float> x_ptr = thrust::device_pointer_cast(d_x);
     thrust::device_ptr<float> y_ptr = thrust::device_pointer_cast(d_y);
+
+
+    // save the time for copying to device
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_copy2device = (milliseconds - t_copy2device) / step + t_copy2device;
+
+    // get the time for finding axis extreme points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     // get min and max
     thrust::device_vector<float>::iterator x_max = thrust::max_element(x_ptr, x_ptr + n);
@@ -43,6 +80,20 @@ void filter_thrust_scan::thrust_scan(){
     xup = d_xup; yup = d_yup;
     xle = d_xle; yle = d_yle;
     xlo = d_xlo; ylo = d_ylo;
+
+
+    // save the time for finding axis extreme points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_extremes = (milliseconds - t_find_extremes) / step + t_find_extremes;
+
+    // get the time for finding corner points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     // get corners
     thrust::device_vector<float> c_ptr(n,0);
@@ -90,6 +141,20 @@ void filter_thrust_scan::thrust_scan(){
     xc4 = x_ptr[c4];
     yc4 = y_ptr[c4]; 
 
+
+    // save the time for finding corner points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_corners = (milliseconds - t_find_corners) / step + t_find_corners;
+
+    // get the time for finding points in q
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     // compute the slope of the line
     computeSlopes(); 
 
@@ -107,10 +172,30 @@ void filter_thrust_scan::thrust_scan(){
                 d_vec_inQ, d_qa ); kernelCallCheck();
     cudaDeviceSynchronize();
 
+
+    // save the time for finding points in q
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_points_in_Q = (milliseconds - t_find_points_in_Q) / step + t_find_points_in_Q;
+
+    // get the time for compacting 
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     compaction_scan_thrust<INDEX,char>(d_q, d_size, d_vec_inQ, d_qa, n);
     
     cudaMemcpy(&size, d_size, sizeof(INDEX), cudaMemcpyDeviceToHost);
 
+
+    // save the time for compacting
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    cudaEventElapsedTime(&milliseconds, start, stop);    
+    t_compaction = (milliseconds - t_compaction) / step + t_compaction;
 }
 
 

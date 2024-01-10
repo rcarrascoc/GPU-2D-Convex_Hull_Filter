@@ -13,3 +13,9 @@
 #include "filter_thrust_copy.cu"
 #include "filter_cpu_serial.cpp"
 #include "filter_cpu_parallel.cpp"
+
+/*
+// include generate points functions
+#include "utility/normal_random_points.cu"
+#include "utility/circumference_random_points.cu"
+#include "utility/uniform_random_points.cu"*/

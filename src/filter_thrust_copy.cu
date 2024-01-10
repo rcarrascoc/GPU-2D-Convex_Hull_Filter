@@ -9,6 +9,15 @@ filter_thrust_copy::filter_thrust_copy(Point *h_p, INDEX size){
 }
 
 void filter_thrust_copy::thrust_copy(){
+    // GET CUDA TIME
+    cudaDeviceSynchronize();
+    step++;
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     auto ffx = [=] __host__ __device__ (Point lhs, Point rhs) { return lhs.x < rhs.x; };
     auto ffy = [=] __host__ __device__ (Point lhs, Point rhs) { return lhs.y < rhs.y; };
 
@@ -16,6 +25,20 @@ void filter_thrust_copy::thrust_copy(){
     cudaMemcpy(d_p, p, sizeof(Point)*n, cudaMemcpyHostToDevice);
 
     thrust::device_ptr<Point> p_ptr = thrust::device_pointer_cast(d_p);
+
+
+    // save the time for copying to device
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_copy2device = (milliseconds - t_copy2device) / step + t_copy2device;
+
+    // get the time for finding axis extreme points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     thrust::device_vector<Point>::iterator x_max = thrust::max_element(p_ptr, p_ptr + n, ffx);
     ri = x_max - (thrust::device_vector<Point>::iterator)p_ptr;
@@ -32,6 +55,20 @@ void filter_thrust_copy::thrust_copy(){
     float d_xle = p[le].x; float d_yle = p[le].y;
     float d_xlo = p[lo].x; float d_ylo = p[lo].y;
     xri = d_xri; yri = d_yri; xup = d_xup; yup = d_yup; xle = d_xle; yle = d_yle; xlo = d_xlo; ylo = d_ylo;
+
+
+    // save the time for finding axis extreme points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_extremes = (milliseconds - t_find_extremes) / step + t_find_extremes;
+
+    // get the time for finding corner points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     thrust::device_vector<float> c_ptr(n,0);
     thrust::transform(	p_ptr, 
@@ -77,6 +114,20 @@ void filter_thrust_copy::thrust_copy(){
     float d_xc4 = p[c4].x;
     float d_yc4 = p[c4].y;
     xc4 = d_xc4; yc4 = d_yc4;
+
+
+    // save the time for finding corner points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_corners = (milliseconds - t_find_corners) / step + t_find_corners;
+
+    // get the time for finding points in q
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     float m1, m2, m3, m4, mh, m1b, m2b, m3b, m4b;
 
@@ -205,17 +256,51 @@ void filter_thrust_copy::thrust_copy(){
         return 0;
     };        
 
+
+    // save the time for finding points in q
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_points_in_Q = (milliseconds - t_find_points_in_Q) / step + t_find_points_in_Q;
+
+    // get the time for compacting 
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     thrust::device_vector<Point> q_vec(n);
     auto result_end = thrust::copy_if(	thrust::device, p_ptr, 
                                                         p_ptr + n, 
                                                         q_vec.begin(), 
                                                         ff);
 
+    // save the time for compacting
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    cudaEventElapsedTime(&milliseconds, start, stop); 
+    t_compaction = (milliseconds - t_compaction) / step + t_compaction;
+
+
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     thrust::host_vector<Point> h_res(q_vec.begin(), result_end);
     cudaDeviceSynchronize();kernelCallCheck();
     size = h_res.size();
     h_q = h_res;
+    cudaDeviceSynchronize();kernelCallCheck();
     //printf("%i\n",h_res[5]);
+
+    // save the time for copying to host
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_copy2host = (milliseconds - t_copy2host) / step + t_copy2host;
+
 }
 
 

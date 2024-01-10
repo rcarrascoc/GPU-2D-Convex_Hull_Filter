@@ -1,5 +1,5 @@
 all: link
-	nvcc -O3 -o prog4 main.cpp -lgmp filter.a
+	nvcc -O3 -o prog4 main.cpp -lCGAL -lgmp -lmpfr filter.a
 
 filter.o:
 	nvcc -O3 -Xcompiler -fopenmp -arch sm_70 --extended-lambda -c src/filter.cu

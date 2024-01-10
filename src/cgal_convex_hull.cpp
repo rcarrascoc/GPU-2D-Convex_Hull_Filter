@@ -30,8 +30,22 @@ void convexHull(HullType *my, float *x, float *y, INDEX_TYPE n){
 	points.push_back( Point_2(x[my->c2],y[my->c2]) );
 	points.push_back( Point_2(x[my->c3],y[my->c3]) );
 	points.push_back( Point_2(x[my->c4],y[my->c4]) );
+
+	// save the time
+    cudaDeviceSynchronize();
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     CGAL::ch_graham_andrew( points.begin(), points.end(), std::back_inserter(result) );
     my->sizeHull = result.size(); //*/
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	my->t_cgal_convex_hull = (milliseconds - my->t_preparation)/my->step + my->t_preparation;
 }
 
 template <typename HullType, typename INDEX_TYPE>
@@ -55,14 +69,36 @@ void convexHull(HullType *my, Point *p, INDEX_TYPE n){
 	points.push_back( Point_2(p[my->c3].x,p[my->c3].y) );
 	points.push_back( Point_2(p[my->c4].x,p[my->c4].y) );
 
+	// save the time
+    cudaDeviceSynchronize();
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     CGAL::ch_graham_andrew( points.begin(), points.end(), std::back_inserter(result) );
     my->sizeHull = result.size(); //*/
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	my->t_cgal_convex_hull = (milliseconds - my->t_preparation)/my->step + my->t_preparation;
 }
 
 template <typename HullType, typename INDEX_TYPE>
 void convexHull_2(HullType *my, float *x, float *y, INDEX_TYPE n){
 //void ConvexHull::convexHull(filter_cpu_serial *my, float *x, float *y, uint n){
     
+	// save the time
+    cudaDeviceSynchronize();
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     std::vector<Point_2> points;
     std::vector<Point_2> result;
 
@@ -79,14 +115,39 @@ void convexHull_2(HullType *my, float *x, float *y, INDEX_TYPE n){
 	points.push_back( Point_2(x[my->c2],y[my->c2]) );
 	points.push_back( Point_2(x[my->c3],y[my->c3]) );
 	points.push_back( Point_2(x[my->c4],y[my->c4]) );
+
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	my->t_preparation = milliseconds;
+
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     CGAL::convex_hull_2( points.begin(), points.end(), std::back_inserter(result) );
     my->sizeHull = result.size(); //*/
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	my->t_cgal_convex_hull = (milliseconds - my->t_preparation)/my->step + my->t_preparation;
 }
 
 template <typename HullType, typename INDEX_TYPE>
 void convexHull_2(HullType *my, Point *p, INDEX_TYPE n){
 //void ConvexHull::convexHull(filter_cpu_serial *my, float *x, float *y, uint n){
     
+	// save the time
+    cudaDeviceSynchronize();
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     std::vector<Point_2> points;
     std::vector<Point_2> result;
 
@@ -104,20 +165,63 @@ void convexHull_2(HullType *my, Point *p, INDEX_TYPE n){
 	points.push_back( Point_2(p[my->c3].x,p[my->c3].y) );
 	points.push_back( Point_2(p[my->c4].x,p[my->c4].y) );
 
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	my->t_preparation = milliseconds;
+
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     CGAL::convex_hull_2( points.begin(), points.end(), std::back_inserter(result) );
     my->sizeHull = result.size(); //*/
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	my->t_cgal_convex_hull = (milliseconds - my->t_preparation)/my->step + my->t_preparation;
 }
 
 template <typename INDEX_TYPE>
 void cgal_2(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n){
+	
+	// save the time
+    cudaDeviceSynchronize();
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+	
 	std::vector<Point_2> result;
     CGAL::convex_hull_2( points.begin(), points.end(), std::back_inserter(result) );
 	*output = result;
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	//my->t_cgal_convex_hull = milliseconds;
 }
 
 template <typename INDEX_TYPE>
 void cgal(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n){
+	
+	// save the time
+    cudaDeviceSynchronize();
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 	std::vector<Point_2> result;
     CGAL::ch_graham_andrew( points.begin(), points.end(), std::back_inserter(result) );
 	*output = result;
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	//my->t_cgal_convex_hull = milliseconds;
 }
