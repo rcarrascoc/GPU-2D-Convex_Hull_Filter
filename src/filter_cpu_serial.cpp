@@ -34,6 +34,16 @@ void findCorner_euclidean(INDEX *corner, T *x, T *y, T xc, T yc, INDEX n){
 }
 
 void filter_cpu_serial::cpu_manhattan(){
+
+    
+    // save the time for deleting
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+    
+
     // get extreme points
     findMax<float>(&ri, x, n);
     findMin<float>(&le, x, n);
@@ -45,6 +55,20 @@ void filter_cpu_serial::cpu_manhattan(){
     xup = x[up]; yup = y[up];
     xlo = x[lo]; ylo = y[lo];
 
+
+    // save the time for finding axis extreme points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_extremes = (milliseconds - t_find_extremes) / step + t_find_extremes;
+
+    // get the time for finding corner points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+    
     // find corners using manhattan distance
     findCorner_manhattan<float>(&c1, x, y, xri, yup, n);
     findCorner_manhattan<float>(&c2, x, y, xle, yup, n);
@@ -56,6 +80,20 @@ void filter_cpu_serial::cpu_manhattan(){
     xc3 = x[c3]; yc3 = y[c3];
     xc4 = x[c4]; yc4 = y[c4];
 
+
+    // save the time for finding corner points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_corners = (milliseconds - t_find_corners) / step + t_find_corners;
+
+    // get the time for finding points in q
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     // compute the slopes
     computeSlopes(); 
 
@@ -103,10 +141,27 @@ void filter_cpu_serial::cpu_manhattan(){
         }
     }
     size = j;
+    
+    
+    // save the time for finding points in q
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_compaction = (milliseconds - t_compaction) / step + t_compaction;
 
 }
 
 void filter_cpu_serial::cpu_euclidean(){
+
+    // save the time for deleting
+    float milliseconds = 0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+
     // get extreme points
     findMax<float>(&ri, x, n);
     findMin<float>(&le, x, n);
@@ -118,6 +173,20 @@ void filter_cpu_serial::cpu_euclidean(){
     xup = x[up]; yup = y[up];
     xlo = x[lo]; ylo = y[lo];
 
+
+    // save the time for finding axis extreme points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_extremes = (milliseconds - t_find_extremes) / step + t_find_extremes;
+
+    // get the time for finding corner points
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+    
     // find corners using manhattan distance
     findCorner_euclidean<float>(&c1, x, y, xri, yup, n);
     findCorner_euclidean<float>(&c2, x, y, xle, yup, n);
@@ -128,6 +197,20 @@ void filter_cpu_serial::cpu_euclidean(){
     xc2 = x[c2]; yc2 = y[c2];
     xc3 = x[c3]; yc3 = y[c3];
     xc4 = x[c4]; yc4 = y[c4];
+
+
+    // save the time for finding corner points
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_find_corners = (milliseconds - t_find_corners) / step + t_find_corners;
+
+    // get the time for finding points in q
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
 
     // compute the slopes
     computeSlopes(); 
@@ -176,6 +259,15 @@ void filter_cpu_serial::cpu_euclidean(){
         }
     }
     size = j;
+
+    
+    // save the time for finding points in q
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    t_compaction = (milliseconds - t_compaction) / step + t_compaction;
+
 }
 
 void filter_cpu_serial::print_extremes(){

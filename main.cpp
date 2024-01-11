@@ -45,6 +45,29 @@ void save_off_file(filter_cpu_serial *filter, std::string name){
     file_candidate.close();
 }
 
+// save timer in a json file
+void save_timer_2(std::string filename, int n, int size, float t_total, unsigned long seed){
+    std::ofstream file;
+    file.open(filename);
+    file << "{\n";
+    file << "\"n\": " << n << ",\n";
+    file << "\"size\": " << 0 << ",\n";
+    file << "\"hull\": " << size << ",\n";
+    file << "\"seed\": " << seed << ",\n";
+    file << "\"copy2device\": " << 0 << ",\n";
+    file << "\"find_extremes\": " << 0 << ",\n";
+    file << "\"find_corners\": " << 0 << ",\n";
+    file << "\"find_points_in_Q\": " << 0 << ",\n";
+    file << "\"compaction\": " << 0 << ",\n";
+    file << "\"copy2host\": " << 0 << ",\n";
+    file << "\"delete\": " << 0 << ",\n";
+    file << "\"preparation\": " << 0 << ",\n";
+    file << "\"cgal_convex_hull\": " << t_total << ",\n";
+    file << "\"total\": " << t_total << "\n";
+    file << "}";
+    file.close();
+}
+
 
 
 // include benchmark functions
@@ -126,9 +149,10 @@ int main(int argc, char *argv[]) {
             //convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
-            save_off_file(thisHull, "cpu_manhattan");
+            //save_off_file(thisHull, "cpu_manhattan");
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("cpu_manhattan.json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -145,6 +169,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("cpu_euclidean.json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -233,6 +258,7 @@ int main(int argc, char *argv[]) {
         delete [] points;
     }
     else if (algorithm == 6){
+        float mean_time = 0;
         std::vector<Point_2> points;
         std::vector<Point_2> result;
         for (INDEX i = 0; i < size; i++){
@@ -240,15 +266,17 @@ int main(int argc, char *argv[]) {
         }
         for (int i = 0; i < REPEATS; i++){
             time->start();
-            cgal_2<INDEX>(&result, points, size);
+            mean_time = cgal_2<INDEX>(&result, points, size, mean_time, i);
             time->pause();
             hull_size = result.size();
             // delete result amd points
             result.clear();
         }
         points.clear();
+        save_timer_2("cgal_2.json", size, hull_size, mean_time, 0);
     }
     else if (algorithm == 7){
+        float mean_time = 0;
         std::vector<Point_2> points;
         std::vector<Point_2> result;
         for (INDEX i = 0; i < size; i++){
@@ -256,13 +284,14 @@ int main(int argc, char *argv[]) {
         }
         for (int i = 0; i < REPEATS; i++){
             time->start();
-            cgal<INDEX>(&result, points, size);
+            mean_time = cgal<INDEX>(&result, points, size, mean_time, i);
             time->pause();
             hull_size = result.size();
             // delete result amd points
             result.clear();
         }
         points.clear();
+        save_timer_2("cgal.json", size, hull_size, mean_time, 0);
     }
     else if (algorithm == 8) {
         filter_cpu_parallel *thisHull;
@@ -276,6 +305,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("omp_manhattan.json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -292,6 +322,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
+            if (i == REPEATS-1) thisHull->save_timer("omp_euclidean.json");
             //thisHull->delete_filter();
             delete thisHull;
         }

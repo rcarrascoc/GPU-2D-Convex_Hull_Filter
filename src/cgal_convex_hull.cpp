@@ -185,7 +185,7 @@ void convexHull_2(HullType *my, Point *p, INDEX_TYPE n){
 }
 
 template <typename INDEX_TYPE>
-void cgal_2(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n){
+float cgal_2(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n, float mean_time, int step){
 	
 	// save the time
     cudaDeviceSynchronize();
@@ -203,10 +203,12 @@ void cgal_2(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYP
 	cudaEventSynchronize(stop);
 	cudaEventElapsedTime(&milliseconds, start, stop);
 	//my->t_cgal_convex_hull = milliseconds;
+
+	return (milliseconds - mean_time) / step + mean_time;
 }
 
 template <typename INDEX_TYPE>
-void cgal(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n){
+float cgal(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE n, float mean_time, int step){
 	
 	// save the time
     cudaDeviceSynchronize();
@@ -224,4 +226,6 @@ void cgal(std::vector<Point_2> *output, std::vector<Point_2> points, INDEX_TYPE 
 	cudaEventSynchronize(stop);
 	cudaEventElapsedTime(&milliseconds, start, stop);
 	//my->t_cgal_convex_hull = milliseconds;
+
+	return (milliseconds - mean_time) / step + mean_time;
 }
