@@ -4,8 +4,7 @@
 #include <curand.h>
 #include <curand_kernel.h>
 
-template <typename T>
-__global__ void kernel_generate_random_uniform_points_gpu(T* x, T* y, int n, unsigned long seed) {
+__global__ void kernel_generate_random_uniform_points_gpu(float* x, float* y, int n, unsigned long seed) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i < n) {
         curandState state;
@@ -20,8 +19,7 @@ __global__ void kernel_generate_random_uniform_points_gpu(T* x, T* y, int n, uns
     }
 }
 
-template <typename T>
-void generate_random_uniform_points_gpu(int n, T* d_x, T* d_y) {
+void generate_random_uniform_points_gpu(int n, float* d_x, float* d_y) {
     // Define the number of threads and blocks
     int blockSize = 1024;
     int numBlocks = (n + blockSize - 1) / blockSize;
@@ -39,9 +37,8 @@ void generate_random_uniform_points_gpu(int n, T* d_x, T* d_y) {
 
 #include <omp.h>
 
-template <typename T>
-void generate_random_uniform_points_omp(int n, T* x, T* y) {
-    std::uniform_real_distribution<T> dist(0.5, 0.1);
+void generate_random_uniform_points_omp(int n, float* x, float* y, unsigned long seed) {
+    std::uniform_real_distribution<float> dist(0.5, 0.1);
 
     #pragma omp parallel  // Iniciar una sección paralela
     {
@@ -56,11 +53,10 @@ void generate_random_uniform_points_omp(int n, T* x, T* y) {
     }
 }
 
-template <typename T>
-void generate_random_uniform_points(int n, T* x, T* y) {
+void generate_random_uniform_points(int n, float* x, float* y) {
     std::random_device rd;  
     std::mt19937 generator(rd());  // Crear un generador de números aleatorios por hilo
-    std::uniform_real_distribution<T> dist(0.5, 0.1);
+    std::uniform_real_distribution<float> dist(0.5, 0.1);
     for(int i = 0; i < n; i++) {
         x[i] = dist(generator);
         y[i] = dist(generator);

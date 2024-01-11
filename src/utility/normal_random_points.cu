@@ -5,8 +5,8 @@
 #include <random>
 
 
-template <typename T>
-__global__ void kernel_generate_random_normal_points_gpu(T* x, T* y, int n, unsigned long seed) {
+
+__global__ void kernel_generate_random_normal_points_gpu(float* x, float* y, int n, unsigned long seed) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i < n) {
         curandState state;
@@ -28,8 +28,8 @@ void checkCudaError2(cudaError_t error, const char* message) {
     }
 }
 
-template <typename T>
-void generate_random_normal_points_gpu(int n, T* d_x, T* d_y) {
+
+void generate_random_normal_points_gpu(int n, float *d_x, float *d_y) {
     // Define the number of threads and blocks
     int threadsPerBlock = 1024;
     int blocksPerGrid = (n + threadsPerBlock - 1) / threadsPerBlock;
@@ -46,13 +46,13 @@ void generate_random_normal_points_gpu(int n, T* d_x, T* d_y) {
     checkCudaError2(cudaDeviceSynchronize(), "CUDA Device Synchronization failed");
 }
 
-template <typename T>
-void generate_random_normal_points_omp(int n, T* x, T* y) {
+
+void generate_random_normal_points_omp(int n, float *x, float *y, unsigned long seed) {
     double mean = 0.5;
     double stddev = 0.1;
 
     // Usar una distribución normal con la media y desviación estándar especificadas
-    std::normal_distribution<T> dist(mean, stddev);
+    std::normal_distribution<float> dist(mean, stddev);
 
     #pragma omp parallel  // Iniciar una sección paralela
     {
@@ -67,14 +67,14 @@ void generate_random_normal_points_omp(int n, T* x, T* y) {
     }
 }
 
-template <typename T>
-void generate_random_normal_points(int n, T* x, T* y) {
+
+void generate_random_normal_points(int n, float *x, float *y) {
     double mean = 0.5;
     double stddev = 0.1;
 
     std::random_device rd;  
     std::mt19937 generator(rd());
-    std::normal_distribution<T> dist(mean, stddev);
+    std::normal_distribution<float> dist(mean, stddev);
 
     for(int i = 0; i < n; ++i) {
         x[i] = dist(generator);

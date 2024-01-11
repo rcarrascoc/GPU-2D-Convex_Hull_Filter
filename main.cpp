@@ -73,8 +73,8 @@ void save_timer_2(std::string filename, int n, int size, float t_total, unsigned
 // include benchmark functions
 //#include "src/benchmark.cu"
 
-string arr_alg[10] = {"cpu manhattan", "cpu euclidean", "gpu kernel", "cub scan", "thrust scan", "thrust copy_if","convex_hull_2","andrew_graham", "cpu_manhattan_parallel", "cpu_euclidean_parallel"};
-string arr_shape[3] = {"normal distribution", "uniform distribution", "circumference distribution"};
+string arr_alg[10] = {"cpu_manhattan", "cpu_euclidean", "gpu_scan", "cub_scan", "thrust_scan", "thrust_copy","convex_hull_2","andrew_graham", "omp_manhattan", "omp_euclidean"};
+string arr_shape[3] = {"normal", "uniform", "circumference"};
 
 // main function
 // where read four arguments and call the corresponding function
@@ -113,18 +113,23 @@ int main(int argc, char *argv[]) {
     REAL *x = new REAL[size];
     REAL *y = new REAL[size];
     INDEX filtered_size = 0, hull_size = 0;
+    float mean_time = 0;
+    unsigned long seed = time(NULL );
 
     // call the corresponding function
     // for generating x and y arrays
     switch (shape) {
         case 0:
-            generate_random_points_normal<REAL>(x, y, size);
+            //generate_random_points_normal<REAL>(x, y, size);
+            generate_random_normal_points_omp(size, x, y, seed);
             break;
         case 1:
-            generate_random_points_uniform<REAL>(x, y, size);
+            //generate_random_points_uniform<REAL>(x, y, size);
+            generate_random_uniform_points_omp(size, x, y, seed);
             break;
         case 2:
-            generate_random_points_circumference<REAL>(x, y, size, probability);
+            //generate_random_points_circumference<REAL>(x, y, size, probability);
+            generate_random_circumference_points_omp(size, x, y, probability, seed);
             break;
         default:
             printf("Error: algorithm must be 0, 1 or 2\n");
@@ -146,13 +151,13 @@ int main(int argc, char *argv[]) {
 	        time->start();
             test3(thisHull, x, y, size, filter_cpu_serial);
             thisHull->cpu_manhattan();
-            //convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //save_off_file(thisHull, "cpu_manhattan");
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("cpu_manhattan.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -163,13 +168,13 @@ int main(int argc, char *argv[]) {
             time->start();
             test3(thisHull, x, y, size, filter_cpu_serial);
             thisHull->cpu_euclidean();
-            //convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_cpu_serial,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("cpu_euclidean.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -188,7 +193,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("gpu_scan.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -207,7 +212,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("cub_flagger.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -226,7 +231,7 @@ int main(int argc, char *argv[]) {
             hull_size = thisHull->sizeHull;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            if (i == REPEATS-1) thisHull->save_timer("thrust_scan.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -251,14 +256,13 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("thrust_copy.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
         delete [] points;
     }
     else if (algorithm == 6){
-        float mean_time = 0;
         std::vector<Point_2> points;
         std::vector<Point_2> result;
         for (INDEX i = 0; i < size; i++){
@@ -266,17 +270,16 @@ int main(int argc, char *argv[]) {
         }
         for (int i = 0; i < REPEATS; i++){
             time->start();
-            mean_time = cgal_2<INDEX>(&result, points, size, mean_time, i);
+            mean_time = cgal_2<INDEX>(&result, points, size, mean_time, i+1);
             time->pause();
             hull_size = result.size();
             // delete result amd points
             result.clear();
         }
         points.clear();
-        save_timer_2("cgal_2.json", size, hull_size, mean_time, 0);
+        save_timer_2(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json", size, hull_size, mean_time, 0);
     }
     else if (algorithm == 7){
-        float mean_time = 0;
         std::vector<Point_2> points;
         std::vector<Point_2> result;
         for (INDEX i = 0; i < size; i++){
@@ -284,14 +287,14 @@ int main(int argc, char *argv[]) {
         }
         for (int i = 0; i < REPEATS; i++){
             time->start();
-            mean_time = cgal<INDEX>(&result, points, size, mean_time, i);
+            mean_time = cgal<INDEX>(&result, points, size, mean_time, i+1);
             time->pause();
             hull_size = result.size();
             // delete result amd points
             result.clear();
         }
         points.clear();
-        save_timer_2("cgal.json", size, hull_size, mean_time, 0);
+        save_timer_2(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json", size, hull_size, mean_time, 0);
     }
     else if (algorithm == 8) {
         filter_cpu_parallel *thisHull;
@@ -299,13 +302,13 @@ int main(int argc, char *argv[]) {
 	        time->start();
             test3(thisHull, x, y, size, filter_cpu_parallel);
             thisHull->cpu_manhattan();
-            //convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("omp_manhattan.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -316,13 +319,13 @@ int main(int argc, char *argv[]) {
 	        time->start();
             test3(thisHull, x, y, size, filter_cpu_parallel);
             thisHull->cpu_euclidean();
-            //convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
+            convexHull_2<filter_cpu_parallel,INDEX>(thisHull, x, y, size);
 	        time->pause();
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer("omp_euclidean.json");
+            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }

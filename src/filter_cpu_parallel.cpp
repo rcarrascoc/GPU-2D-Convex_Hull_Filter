@@ -76,6 +76,7 @@ void findCorner_euclidean_parallel(INDEX *corner, T *x, T *y, T xc, T yc, INDEX 
 
 void filter_cpu_parallel::cpu_manhattan(){
 
+    step++;
     // save the time for deleting
     float milliseconds = 0;
     cudaEvent_t start, stop;
@@ -263,6 +264,7 @@ void filter_cpu_parallel::cpu_manhattan(){
 
 void filter_cpu_parallel::cpu_euclidean(){
     
+    step++;
     // save the time for deleting
     float milliseconds = 0;
     cudaEvent_t start, stop;

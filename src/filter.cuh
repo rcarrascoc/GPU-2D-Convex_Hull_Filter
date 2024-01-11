@@ -174,9 +174,9 @@ public:
     } //*/
 };
 
-void generate_random_normal_points_omp(int n, float x, float y);
-void generate_random_uniform_points_omp(int n, float x, float y);
-void generate_random_circumference_points_omp(int n, float x, float y, double prob);
+void generate_random_normal_points_omp(int n, float *x, float *y, unsigned long seed);
+void generate_random_uniform_points_omp(int n, float *x, float *y, unsigned long seed);
+void generate_random_circumference_points_omp(int n, float *x, float *y, double prob, unsigned long seed);
 
 #include "filter_gpu_scan.cuh"
 #include "filter_cub_flagged.cuh"

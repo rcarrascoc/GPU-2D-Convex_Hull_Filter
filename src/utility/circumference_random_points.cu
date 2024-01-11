@@ -5,8 +5,7 @@
 #include <omp.h>
 #include <cstdlib>
 
-template <typename T>
-__device__ void kernel_calculate_point(float alpha, float ra, T &x, T &y) {
+__device__ void kernel_calculate_point(float alpha, float ra, float &x, float &y) {
     if (alpha == 0 || alpha == 360) {
         x = (alpha == 0) ? ra : -ra;
         y = 0;
@@ -23,8 +22,7 @@ __device__ void kernel_calculate_point(float alpha, float ra, T &x, T &y) {
     }
 }
 
-template <typename T>
-__global__ void kernel_generate_random_circumference_points(T *X, T *Y, int n, double prob, float cx, float cy, float ra, int N, unsigned long seed) {
+__global__ void kernel_generate_random_circumference_points(float *X, float *Y, int n, double prob, float cx, float cy, float ra, int N, unsigned long seed) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i < n) {
         curandState state;
@@ -51,8 +49,7 @@ __global__ void kernel_generate_random_circumference_points(T *X, T *Y, int n, d
 
 
 
-template <typename T>
-void generate_random_circumference_points_gpu(int n, T *d_x, T *d_y, double prob){
+void generate_random_circumference_points_gpu(int n, float *d_x, float *d_y, double prob){
     // Use current time as a seed for the random number generator
     unsigned long seed = clock();
 
@@ -71,8 +68,7 @@ void generate_random_circumference_points_gpu(int n, T *d_x, T *d_y, double prob
 #include <cmath>
 #include <random>
 
-template <typename T>
-void calculate_point(float alpha, float ra, T &x, T &y) {
+void calculate_point(float alpha, float ra, float &x, float &y) {
     if (alpha == 0 || alpha == 360) {
         x = (alpha == 0) ? ra : -ra;
         y = 0;
@@ -89,15 +85,14 @@ void calculate_point(float alpha, float ra, T &x, T &y) {
     }
 }
 
-template <typename T>
-void generate_random_circumference_points_omp(int n, T *X, T *Y, double prob) {
-    srand(1);
+void generate_random_circumference_points_omp(int n, float *X, float *Y, double prob, unsigned long seed) {
     int N = n - static_cast<int>(n * prob);
     float cx = 0.5, cy = 0.5, ra = 1.0;
 
     #pragma omp parallel
     {
-        std::mt19937 gen(rand());
+        std::random_device rd;  
+        std::mt19937 gen(rd());
 
         #pragma omp for
         for (int i = 0; i < n; i++) {
@@ -119,8 +114,7 @@ void generate_random_circumference_points_omp(int n, T *X, T *Y, double prob) {
     }
 }
 
-template <typename T>
-void generate_random_circumference_points(int n, T *X, T *Y, double prob){
+void generate_random_circumference_points(int n, float *X, float *Y, double prob){
     srand(1);
 	int i;
 	int N = n - n*prob;		// points on the circumference.	CASO 1
