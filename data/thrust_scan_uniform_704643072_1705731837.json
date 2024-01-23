@@ -1,0 +1,16 @@
+{
+"n": 704643072,
+"size": 38214,
+"hull": 49,
+"seed": 0,
+"copy2device": 783.111,
+"find_extremes": 18.1935,
+"find_corners": 70.4376,
+"find_points_in_Q": 13.6877,
+"compaction": 12.4802,
+"copy2host": 836.34,
+"delete": 0,
+"preparation": 16.6699,
+"cgal_convex_hull": 3.94118,
+"total": 955.08
+}

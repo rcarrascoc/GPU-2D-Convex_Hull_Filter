@@ -157,7 +157,7 @@ int main(int argc, char *argv[]) {
             //save_off_file(thisHull, "cpu_manhattan");
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -212,7 +212,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
             hull_size = thisHull->sizeHull;
             //std::cout << "size after the filter: " << thisHull->size << std::endl;
             //thisHull->print_extremes();
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -256,7 +256,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             thisHull->delete_filter();
             delete thisHull;
         }
@@ -277,7 +277,7 @@ int main(int argc, char *argv[]) {
             result.clear();
         }
         points.clear();
-        save_timer_2(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json", size, hull_size, mean_time, 0);
+        save_timer_2("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json", size, hull_size, mean_time, 0);
     }
     else if (algorithm == 7){
         std::vector<Point_2> points;
@@ -294,7 +294,7 @@ int main(int argc, char *argv[]) {
             result.clear();
         }
         points.clear();
-        save_timer_2(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json", size, hull_size, mean_time, 0);
+        save_timer_2("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json", size, hull_size, mean_time, 0);
     }
     else if (algorithm == 8) {
         filter_cpu_parallel *thisHull;
@@ -308,7 +308,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
@@ -325,7 +325,7 @@ int main(int argc, char *argv[]) {
             //thisHull->print_extremes();
             filtered_size = thisHull->size;
             hull_size = thisHull->sizeHull;
-            if (i == REPEATS-1) thisHull->save_timer(arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
+            if (i == REPEATS-1) thisHull->save_timer("../data/" + arr_alg[algorithm] + "_" + arr_shape[shape]+ "_" + std::to_string(size) + "_" + std::to_string(seed) + ".json");
             //thisHull->delete_filter();
             delete thisHull;
         }
