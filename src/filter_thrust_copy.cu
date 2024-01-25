@@ -1,8 +1,8 @@
 //#include "filter_thrust_copy.cuh"
 
-filter_thrust_copy::filter_thrust_copy(Point *h_p, INDEX size){
+filter_thrust_copy::filter_thrust_copy(Point *h_p, INDEX size2){
     p = h_p;
-    n = size;
+    n = size2;
     thrust_copy();
 
     //print_extremes();
@@ -33,6 +33,12 @@ void filter_thrust_copy::thrust_copy(){
     milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     t_copy2device = (milliseconds - t_copy2device) / step + t_copy2device;
+
+    
+    cudaEvent_t start_filter, stop_filter;
+    cudaEventCreate(&start_filter);
+    cudaEventCreate(&stop_filter);
+    cudaEventRecord(start_filter);
 
     // get the time for finding axis extreme points
     cudaEventCreate(&start);
@@ -300,6 +306,12 @@ void filter_thrust_copy::thrust_copy(){
     milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     t_copy2host = (milliseconds - t_copy2host) / step + t_copy2host;
+    
+    // save the time for compacting
+    cudaEventRecord(stop_filter);
+    cudaEventSynchronize(stop_filter);
+    cudaEventElapsedTime(&milliseconds, start_filter, stop_filter);    
+    t_total = (milliseconds - t_total) / step + t_total;
 
 }
 

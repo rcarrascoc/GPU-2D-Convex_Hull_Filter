@@ -4,10 +4,10 @@
 // compacting vector
 half *d_vec_inQ;
 
-filter_gpu_scan::filter_gpu_scan(float *x_in, float *y_in, INDEX size){
+filter_gpu_scan::filter_gpu_scan(float *x_in, float *y_in, INDEX size2){
     x = x_in;
     y = y_in;
-    n = size;
+    n = size2;
     gpu_scan();
     //f_gpu_scan();
 
@@ -60,6 +60,11 @@ void filter_gpu_scan::gpu_scan(){
     milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     t_copy2device = (milliseconds - t_copy2device) / step + t_copy2device;
+
+    cudaEvent_t start_filter, stop_filter;
+    cudaEventCreate(&start_filter);
+    cudaEventCreate(&stop_filter);
+    cudaEventRecord(start_filter);
 
     // get the time for finding axis extreme points
     cudaEventCreate(&start);
@@ -203,6 +208,11 @@ void filter_gpu_scan::gpu_scan(){
         printf("%i %i\n", i,(int) h_qa[i]);
     }*/
 
+    // save the time for compacting
+    cudaEventRecord(stop_filter);
+    cudaEventSynchronize(stop_filter);
+    cudaEventElapsedTime(&milliseconds, start_filter, stop_filter);    
+    t_total = (milliseconds - t_total) / step + t_total;
 }
 
 

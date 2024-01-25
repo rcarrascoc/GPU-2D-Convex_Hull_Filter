@@ -38,6 +38,7 @@ public:
     float t_find_points_in_Q = 0;
     float t_compaction = 0;
     float t_copy2host = 0;
+    float t_total = 0;
     float t_delete = 0;
     float t_preparation = 0;
     float t_cgal_convex_hull = 0;
@@ -60,10 +61,11 @@ public:
         file << "\"find_points_in_Q\": " << t_find_points_in_Q << ",\n";
         file << "\"compaction\": " << t_compaction << ",\n";
         file << "\"copy2host\": " << t_copy2host << ",\n";
+        file << "\"filter\": " << t_total << ",\n";
         file << "\"delete\": " << t_delete << ",\n";
         file << "\"preparation\": " << t_preparation << ",\n";
         file << "\"cgal_convex_hull\": " << t_cgal_convex_hull << ",\n";
-        file << "\"total\": " << t_find_corners + t_find_extremes + t_find_points_in_Q + t_compaction + t_copy2host + t_delete + t_cgal_convex_hull << "\n";
+        file << "\"total\": " << t_total + t_cgal_convex_hull << "\n";
         file << "}";
         file.close();
     }

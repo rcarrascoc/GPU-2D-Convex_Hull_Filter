@@ -79,6 +79,13 @@ void filter_cpu_parallel::cpu_manhattan(){
     step++;
     // save the time for deleting
     float milliseconds = 0;
+
+    
+    cudaEvent_t start_filter, stop_filter;
+    cudaEventCreate(&start_filter);
+    cudaEventCreate(&stop_filter);
+    cudaEventRecord(start_filter);
+
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
@@ -260,6 +267,11 @@ void filter_cpu_parallel::cpu_manhattan(){
     cudaEventElapsedTime(&milliseconds, start, stop);
     t_compaction = (milliseconds - t_compaction) / step + t_compaction;
 
+    // save the time for compacting
+    cudaEventRecord(stop_filter);
+    cudaEventSynchronize(stop_filter);
+    cudaEventElapsedTime(&milliseconds, start_filter, stop_filter);    
+    t_total = (milliseconds - t_total) / step + t_total;
 }
 
 void filter_cpu_parallel::cpu_euclidean(){
@@ -267,6 +279,13 @@ void filter_cpu_parallel::cpu_euclidean(){
     step++;
     // save the time for deleting
     float milliseconds = 0;
+
+    
+    cudaEvent_t start_filter, stop_filter;
+    cudaEventCreate(&start_filter);
+    cudaEventCreate(&stop_filter);
+    cudaEventRecord(start_filter);
+
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
@@ -395,6 +414,11 @@ void filter_cpu_parallel::cpu_euclidean(){
     cudaEventElapsedTime(&milliseconds, start, stop);
     t_compaction = (milliseconds - t_compaction) / step + t_compaction;
 
+    // save the time for compacting
+    cudaEventRecord(stop_filter);
+    cudaEventSynchronize(stop_filter);
+    cudaEventElapsedTime(&milliseconds, start_filter, stop_filter);    
+    t_total = (milliseconds - t_total) / step + t_total;
 }
 
 void filter_cpu_parallel::print_extremes(){

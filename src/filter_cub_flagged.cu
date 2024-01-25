@@ -6,10 +6,10 @@
 cub::KeyValuePair<int, float> *d_ri, *d_le, *d_lo, *d_up;
 cub::KeyValuePair<int, float>  *d_c1, *d_c2, *d_c3, *d_c4;
 
-filter_cub_flagged::filter_cub_flagged(float *x_in, float *y_in, INDEX size){
+filter_cub_flagged::filter_cub_flagged(float *x_in, float *y_in, INDEX size2){
     x = x_in;
     y = y_in;
-    n = size;
+    n = size2;
     cub_flagged();
     //f_cub_flagged();
 
@@ -62,6 +62,12 @@ void filter_cub_flagged::cub_flagged(){
     milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     t_copy2device = (milliseconds - t_copy2device) / step + t_copy2device;  
+
+
+    cudaEvent_t start_filter, stop_filter;
+    cudaEventCreate(&start_filter);
+    cudaEventCreate(&stop_filter);
+    cudaEventRecord(start_filter);
 
     // get the time for finding axis extreme points
     cudaEventCreate(&start);
@@ -190,6 +196,11 @@ void filter_cub_flagged::cub_flagged(){
     t_compaction = (milliseconds - t_compaction) / step + t_compaction;
     
 
+    // save the time for compacting
+    cudaEventRecord(stop_filter);
+    cudaEventSynchronize(stop_filter);
+    cudaEventElapsedTime(&milliseconds, start_filter, stop_filter);    
+    t_total = (milliseconds - t_total) / step + t_total;
 }
 
 void filter_cub_flagged::f_cub_flagged(){
