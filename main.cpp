@@ -73,7 +73,7 @@ void save_timer_2(std::string filename, int n, int size, float t_total, unsigned
 // include benchmark functions
 //#include "src/benchmark.cu"
 
-string arr_alg[10] = {"cpu_manhattan", "cpu_euclidean", "gpu_scan", "cub_scan", "thrust_scan", "thrust_copy","convex_hull_2","andrew_graham", "omp_manhattan", "omp_euclidean"};
+string arr_alg[10] = {"cpu_manhattan", "cpu_euclidean", "gpu_scan", "cub_flagge", "thrust_scan", "thrust_copy","convex_hull_2","andrew_graham", "omp_manhattan", "omp_euclidean"};
 string arr_shape[3] = {"normal", "uniform", "circumference"};
 
 // main function

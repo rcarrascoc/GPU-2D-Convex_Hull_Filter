@@ -20,9 +20,11 @@ filter_cub_flagged::filter_cub_flagged(float *x_in, float *y_in, INDEX size2){
     cudaEventCreate(&stop);
     cudaEventRecord(start);
 
+    //printf("size of q: %d\n", size);
+
     // cuda copy d_q to host
     h_q = new INDEX[size];
-    cudaMemcpy(h_q, d_q, sizeof(INDEX) * n, cudaMemcpyDeviceToHost); kernelCallCheck();
+    cudaMemcpy(h_q, d_q, sizeof(INDEX) * size, cudaMemcpyDeviceToHost); kernelCallCheck();
     //print_extremes();
 
     // save time
@@ -186,8 +188,8 @@ void filter_cub_flagged::cub_flagged(){
 
     compaction_cub<INDEX,char>(d_q, d_size, d_vec_inQ, d_qa, n);
     
-    cudaDeviceSynchronize();
     cudaMemcpy(&size, d_size, sizeof(INDEX), cudaMemcpyDeviceToHost);
+    cudaDeviceSynchronize();
 
     // save the time for compacting
     cudaEventRecord(stop);
@@ -286,6 +288,7 @@ void filter_cub_flagged::f_cub_flagged(){
     compaction_cub<INDEX,char>(d_q, d_size, d_vec_inQ, d_qa, n);
 
     cudaMemcpy(&size, d_size, sizeof(INDEX), cudaMemcpyDeviceToHost);
+    cudaDeviceSynchronize();
 }
 
 
