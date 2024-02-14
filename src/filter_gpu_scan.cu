@@ -4,7 +4,7 @@
 // compacting vector
 half *d_vec_inQ;
 
-filter_gpu_scan::filter_gpu_scan(float *x_in, float *y_in, INDEX siz2e){
+filter_gpu_scan::filter_gpu_scan(float *x_in, float *y_in, INDEX size2){
     x = x_in;
     y = y_in;
     n = size2;

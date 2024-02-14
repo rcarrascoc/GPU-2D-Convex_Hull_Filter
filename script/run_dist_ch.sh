@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#run as sh script/run_dist.sh $((2**25)) $((2**25)) $((2**29)) 5 data/normal_dist.dat prog 0 0
+#run as sh script/run_dist.sh $((2**25)) $((2**25)) $((2**29)) 5 data/normal_dist.dat prog 0 0 ../data
     
-STARTN=$1; DN=$2; ENDN=$3 SAMPLES=$4; OUTFILE=${5}; BINARY=${6};  SHAPE=$7; PROB=${8};
+STARTN=$1; DN=$2; ENDN=$3 SAMPLES=$4; OUTFILE=${5}; BINARY=${6};  SHAPE=$7; PROB=${8}; PATH=${9};
 TMEAN=0
 TVAR=0
 TSTDEV=0
@@ -16,8 +16,8 @@ do
         M=0; S=0; x=0; y=0; z=0; v=0; w1=0; x1=0; y1=0; z1=0; v1=0; x2=0; w2=0; y2=0; z2=0; v2=0; Mz=0;
         for k in `seq 1 ${SAMPLES}`;
         do
-            echo  "./${BINARY} ${N} ${ALG} $SHAPE  $PROB"
-            value=`./${BINARY} ${N} ${ALG} $SHAPE  $PROB`
+            echo  "./${BINARY} ${N} ${ALG} $SHAPE  $PROB $PATH"
+            value=`./${BINARY} ${N} ${ALG} $SHAPE  $PROB $PATH`
             echo "${value}"
             x="$(cut -d' ' -f1 <<< "$value")"
             y="$(cut -d' ' -f2 <<< "$value")"
