@@ -7,7 +7,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Wed Feb 28 00:55:19 2024
+# Make data base, printed on Fri Apr  5 12:28:42 2024
 
 # Variables
 
@@ -78,7 +78,7 @@ SSL_CERT_DIR = /usr/lib/ssl/certs
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
-VSCODE_CLI_REQUIRE_TOKEN = ab8f3b5f-91ae-4711-9ad6-bfe8e9f07548
+VSCODE_CLI_REQUIRE_TOKEN = cff9a48e-c234-4d73-afa5-8c859fe42175
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","osLocale":"en","availableLanguages":{}}
 # default
@@ -88,13 +88,13 @@ SHELL = /bin/sh
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 0
+SHLVL = 1
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/rcarrasco/.vscode-server-insiders/cli/servers/Insiders-a0b90ac5e04ea9a0733b68062253a469994e170e/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PATH = /home/rcarrasco/.vscode-server/cli/servers/Stable-863d2581ecda6849923a2118d93a088b0745d9d6/server/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 # default
 MAKEFILES := 
 # environment
@@ -102,7 +102,7 @@ MOTD_SHOWN = pam
 # automatic
 ^F = $(notdir $^)
 # environment
-SSH_CLIENT = 201.214.231.115 63635 2237
+SSH_CLIENT = 93.30.117.203 63511 2237
 # automatic
 ?F = $(notdir $?)
 # environment
@@ -114,7 +114,7 @@ LESS = -R
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
-BROWSER = /home/rcarrasco/.vscode-server-insiders/cli/servers/Insiders-a0b90ac5e04ea9a0733b68062253a469994e170e/server/bin/helpers/browser.sh
+BROWSER = /home/rcarrasco/.vscode-server/cli/servers/Stable-863d2581ecda6849923a2118d93a088b0745d9d6/server/bin/helpers/browser.sh
 # environment
 LOGNAME = rcarrasco
 # makefile
@@ -126,13 +126,13 @@ MAKE_VERSION := 4.3
 # environment
 PAGER = less
 # environment
-VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server-insiders
+VSCODE_AGENT_FOLDER = /home/rcarrasco/.vscode-server
 # environment
-_ = /home/rcarrasco/.vscode-server-insiders/cli/servers/Insiders-a0b90ac5e04ea9a0733b68062253a469994e170e/server/node
+_ = /home/rcarrasco/.vscode-server/cli/servers/Stable-863d2581ecda6849923a2118d93a088b0745d9d6/server/node
 # environment
 XDG_RUNTIME_DIR = /run/user/10001
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-0f184ed7-7b0d-42c8-be08-69d5da709ef2.sock
+VSCODE_IPC_HOOK_CLI = /run/user/10001/vscode-ipc-0625081b-fb5d-4097-92d4-e11ad63f74f0.sock
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -142,7 +142,7 @@ HOME = /home/rcarrasco
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-XDG_SESSION_ID = 1624
+XDG_SESSION_ID = 1585
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -152,7 +152,7 @@ SUFFIXES :=
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
-SSH_CONNECTION = 201.214.231.115 63635 146.83.216.133 2237
+SSH_CONNECTION = 93.30.117.203 63511 146.83.216.133 2237
 # variable set hash-table stats:
 # Load=71/1024=7%, Rehash=0, Collisions=2/104=2%
 
@@ -162,9 +162,9 @@ SSH_CONNECTION = 201.214.231.115 63635 146.83.216.133 2237
 
 # Directories
 
-# . (device 56, inode 128873224873): 16 files, no impossibilities.
+# . (device 58, inode 128873224873): 18 files, no impossibilities.
 
-# 16 files, no impossibilities in 1 directories.
+# 18 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -266,12 +266,12 @@ link: filter.o
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 25 / storage = 183 B / avg = 7 B
-# current buf: size = 8162 B / used = 183 B / count = 25 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 27 / storage = 212 B / avg = 7 B
+# current buf: size = 8162 B / used = 212 B / count = 27 / avg = 7 B
 
-# strcache performance: lookups = 42 / hit rate = 40%
+# strcache performance: lookups = 44 / hit rate = 38%
 # hash-table stats:
-# Load=25/8192=0%, Rehash=0, Collisions=0/42=0%
-# Finished Make data base on Wed Feb 28 00:55:19 2024
+# Load=27/8192=0%, Rehash=0, Collisions=0/44=0%
+# Finished Make data base on Fri Apr  5 12:28:42 2024
 
  
